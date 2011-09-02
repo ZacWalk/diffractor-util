@@ -1,0 +1,5 @@
+Debug/
+Lint/
+Release/
+_ReSharper.*
+*.user
