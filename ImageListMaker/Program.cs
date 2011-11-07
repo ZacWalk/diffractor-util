@@ -19,8 +19,8 @@ namespace ImageListMaker
             var skin = new ControlSkin();
             skin.Save();
 
-            var tbLarge = CreateLargeToolbar();
-            var tbSmall = CreateSmallToolbar(tbLarge);
+            Bitmap tbLarge = CreateLargeToolbar();
+            Bitmap tbSmall = CreateSmallToolbar(tbLarge);
 
             tbLarge.Save(@"out\tb_large.bmp", ImageFormat.Bmp);
             tbSmall.Save(@"out\tb_small.bmp", ImageFormat.Bmp);
@@ -28,11 +28,11 @@ namespace ImageListMaker
 
         private static Bitmap CreateSmallToolbar(Bitmap tb)
         {
-            var cx = tb.Width / 2;
-            var cy = tb.Height / 2;
+            int cx = tb.Width/2;
+            int cy = tb.Height/2;
             var tbSmall = new Bitmap(cx, cy, PixelFormat.Format32bppArgb);
 
-            using (var g = Graphics.FromImage(tbSmall))
+            using (Graphics g = Graphics.FromImage(tbSmall))
             using (new HighQualityRendering(g))
             {
                 g.DrawImage(tb, 0, 0, cx, cy);
@@ -75,16 +75,42 @@ namespace ImageListMaker
                                  new Bitmap("Icons\\Sound0.png"),
                                  new Bitmap("Icons\\Sound1.png"),
                                  new Bitmap("Icons\\Sound2.png"),
-                                 new Bitmap("Icons\\Sound3.png")
+                                 new Bitmap("Icons\\Sound3.png"),
+                                 new Bitmap("Icons\\Audio.png"),
+                                 new Bitmap("Icons\\Color.png"),
+                                 new Bitmap("Icons\\Convert.png"),
+                                 new Bitmap("Icons\\Copyright.png"),
+                                 new Bitmap("Icons\\Edit.png"),
+                                 new Bitmap("Icons\\facebook.png"),
+                                 new Bitmap("Icons\\flickr.png"),
+                                 new Bitmap("Icons\\Fullscreen.png"),
+                                 new Bitmap("Icons\\Graph.png"),
+                                 new Bitmap("Icons\\Graph2.png"),
+                                 new Bitmap("Icons\\Idea.png"),
+                                 new Bitmap("Icons\\Import.png"),
+                                 new Bitmap("Icons\\Info.png"),
+                                 new Bitmap("Icons\\Mail.png"),
+                                 new Bitmap("Icons\\Options.png"),
+                                 new Bitmap("Icons\\Photo.png"),
+                                 new Bitmap("Icons\\Repeat.png"),
+                                 new Bitmap("Icons\\Resize.png"),
+                                 new Bitmap("Icons\\Search.png"),
+                                 new Bitmap("Icons\\Shuffle.png"),
+                                 new Bitmap("Icons\\Star.png"),
+                                 new Bitmap("Icons\\Tag.png"),
+                                 new Bitmap("Icons\\text.png"),
+                                 new Bitmap("Icons\\twitter.png"),
+                                 new Bitmap("Icons\\Video.png"),
+                                 new Bitmap("Icons\\Zoom.png"),
                              };
 
-            var x = 0;
-            var tb = new Bitmap(DrawIcon.Scale * images.Count, DrawIcon.Scale, PixelFormat.Format32bppArgb);
+            int x = 0;
+            var tb = new Bitmap(DrawIcon.Scale*images.Count, DrawIcon.Scale, PixelFormat.Format32bppArgb);
 
-            using (var g = Graphics.FromImage(tb))
+            using (Graphics g = Graphics.FromImage(tb))
             using (new HighQualityRendering(g))
             {
-                foreach (var i in images)
+                foreach (Image i in images)
                 {
                     g.DrawImage(i, x++*DrawIcon.Scale, 0, DrawIcon.Scale, DrawIcon.Scale);
                 }
@@ -117,7 +143,7 @@ namespace ImageListMaker
 
         public void Save()
         {
-            using (var g = Graphics.FromImage(bitmap))
+            using (Graphics g = Graphics.FromImage(bitmap))
             using (new HighQualityRendering(g))
             {
                 //g.Clear(Color.FromArgb(0x33, 0x38, 0x40));
@@ -132,7 +158,7 @@ namespace ImageListMaker
 
         private void DrawScrollBars(Graphics g, Color c, int x)
         {
-            using (var p = DrawIcon.CreatePen(c, LineJoin.Miter, LineCap.Round, LineCap.Round, 4))
+            using (Pen p = DrawIcon.CreatePen(c, LineJoin.Miter, LineCap.Round, LineCap.Round, 4))
             {
                 var pointsU = new[] {new PointF(x + 4, 12), new PointF(x + 8, 4), new PointF(x + 12, 12)};
                 var pointsD = new[] {new PointF(x + 4, 64 - 12), new PointF(x + 8, 64 - 4), new PointF(x + 12, 64 - 12)};
@@ -141,7 +167,7 @@ namespace ImageListMaker
                 g.DrawLines(p, pointsD);
             }
 
-            using (var p = DrawIcon.CreatePen(c, LineJoin.Miter, LineCap.Round, LineCap.Round, 8))
+            using (Pen p = DrawIcon.CreatePen(c, LineJoin.Miter, LineCap.Round, LineCap.Round, 8))
             {
                 var points = new[] {new PointF(x + 8, 24), new PointF(x + 8, 64 - 24)};
                 g.DrawLines(p, points);
