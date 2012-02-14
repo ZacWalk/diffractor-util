@@ -8,27 +8,32 @@ namespace ImageListMaker
     {
         private const float inflate = 0.2f;
         private const float LineWidth = 5f;
-        public const int Scale = 32;
+        public int scale = 32;
 
-        public static Image Back
+        public DrawIcon(int scale)
+        {
+            this.scale = scale;
+        }
+
+        public  Image Back
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, LineWidth))
                 {
                     var points = new[]
                                      {
-                                         new PointF(0.5f*Scale, inflate*Scale), new PointF(inflate*Scale, 0.5f*Scale),
-                                         new PointF(0.5f*Scale, (1.0f - inflate)*Scale)
+                                         new PointF(0.5f*scale, inflate*scale), new PointF(inflate*scale, 0.5f*scale),
+                                         new PointF(0.5f*scale, (1.0f - inflate)*scale)
                                      };
 
                     var points2 = new[]
                                       {
-                                          new PointF(inflate*Scale, 0.5f*Scale),
-                                          new PointF((1.0f - inflate)*Scale, 0.5f*Scale)
+                                          new PointF(inflate*scale, 0.5f*scale),
+                                          new PointF((1.0f - inflate)*scale, 0.5f*scale)
                                       };
 
                     g.DrawLines(p, points);
@@ -38,26 +43,26 @@ namespace ImageListMaker
             }
         }
 
-        public static Image Next
+        public  Image Next
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, LineWidth))
                 {
                     var points = new[]
                                      {
-                                         new PointF(0.5f*Scale, inflate*Scale),
-                                         new PointF((1.0f - inflate)*Scale, 0.5f*Scale),
-                                         new PointF(0.5f*Scale, (1.0f - inflate)*Scale)
+                                         new PointF(0.5f*scale, inflate*scale),
+                                         new PointF((1.0f - inflate)*scale, 0.5f*scale),
+                                         new PointF(0.5f*scale, (1.0f - inflate)*scale)
                                      };
 
                     var points2 = new[]
                                       {
-                                          new PointF((1.0f - inflate)*Scale, 0.5f*Scale),
-                                          new PointF(inflate*Scale, 0.5f*Scale)
+                                          new PointF((1.0f - inflate)*scale, 0.5f*scale),
+                                          new PointF(inflate*scale, 0.5f*scale)
                                       };
 
                     g.DrawLines(p, points);
@@ -67,77 +72,77 @@ namespace ImageListMaker
             }
         }
 
-        public static Image BackImage
+        public  Image BackImage
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, LineWidth))
                 {
-                    g.DrawLines(p, GetLeftRightPoints(0.4f, 0.2f, 0.3f, Scale));
-                    g.DrawLines(p, GetLeftRightPoints(0.8f, 0.6f, 0.3f, Scale));
+                    g.DrawLines(p, GetLeftRightPoints(0.4f, 0.2f, 0.3f, scale));
+                    g.DrawLines(p, GetLeftRightPoints(0.8f, 0.6f, 0.3f, scale));
                 }
                 return result;
             }
         }
 
-        public static Image NextImage
+        public  Image NextImage
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, LineWidth))
                 {
-                    g.DrawLines(p, GetLeftRightPoints(0.2f, 0.4f, 0.3f, Scale));
-                    g.DrawLines(p, GetLeftRightPoints(0.6f, 0.8f, 0.3f, Scale));
+                    g.DrawLines(p, GetLeftRightPoints(0.2f, 0.4f, 0.3f, scale));
+                    g.DrawLines(p, GetLeftRightPoints(0.6f, 0.8f, 0.3f, scale));
                 }
                 return result;
             }
         }
 
-        public static Image Play
+        public  Image Play
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, LineWidth))
                 {
-                    g.DrawPolygon(p, GetLeftRightPoints(0.3f, 0.7f, 0.2f, Scale));
+                    g.DrawPolygon(p, GetLeftRightPoints(0.3f, 0.7f, 0.2f, scale));
                 }
                 return result;
             }
         }
 
-        public static Bitmap Pause
+        public  Bitmap Pause
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, LineWidth))
                 {
-                    var xx = Scale / 3f;
-                    var top = 0.2f * Scale;
+                    var xx = scale / 3f;
+                    var top = 0.2f * scale;
 
-                    g.DrawLine(p, xx, top, xx, Scale - top);
-                    g.DrawLine(p, xx * 2f, top, xx * 2f, Scale - top);
+                    g.DrawLine(p, xx, top, xx, scale - top);
+                    g.DrawLine(p, xx * 2f, top, xx * 2f, scale - top);
                 }
                 return result;
             }
         }
 
-        public static Image Down
+        public  Image Down
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, LineWidth))
@@ -147,9 +152,9 @@ namespace ImageListMaker
 
                     var points = new[]
                                      {
-                                         new PointF(inflateX*Scale, inflateY*Scale),
-                                         new PointF(0.5f*Scale, (1.0f - inflateY)*Scale),
-                                         new PointF((1.0f - inflateX)*Scale, inflateY*Scale)
+                                         new PointF(inflateX*scale, inflateY*scale),
+                                         new PointF(0.5f*scale, (1.0f - inflateY)*scale),
+                                         new PointF((1.0f - inflateX)*scale, inflateY*scale)
                                      };
 
                     //g.FillPolygon(Brushes.White, points);
@@ -160,20 +165,20 @@ namespace ImageListMaker
             }
         }
 
-        public static Image Refresh
+        public  Image Refresh
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, LineWidth))
                 {
-                    var xx = 2 + 0.5f * Scale;
+                    var xx = 2 + 0.5f * scale;
 
                     var points = new[] { new PointF(xx - 2, 1), new PointF(xx + 4, 5), new PointF(xx - 2, 10) };
 
-                    var r = new RectangleF(0, 0, Scale, Scale);
+                    var r = new RectangleF(0, 0, scale, scale);
                     r.Inflate(-5f, -5f);
                     g.DrawArc(p, r, 0, 270);
                     g.FillPolygon(Brushes.White, points);
@@ -182,33 +187,33 @@ namespace ImageListMaker
             }
         }
 
-        public static Image Print
+        public  Image Print
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, 2))
                 {
                     var points = new[]
                                      {
-                                         new PointF(0.3f*Scale, 0.7f*Scale), new PointF(0.1f*Scale, 0.7f*Scale),
-                                         new PointF(0.1f*Scale, 0.3f*Scale), new PointF(0.9f*Scale, 0.3f*Scale),
-                                         new PointF(0.9f*Scale, 0.7f*Scale), new PointF(0.7f*Scale, 0.7f*Scale),
+                                         new PointF(0.3f*scale, 0.7f*scale), new PointF(0.1f*scale, 0.7f*scale),
+                                         new PointF(0.1f*scale, 0.3f*scale), new PointF(0.9f*scale, 0.3f*scale),
+                                         new PointF(0.9f*scale, 0.7f*scale), new PointF(0.7f*scale, 0.7f*scale),
                                      };
 
                     var points2 = new[]
                                       {
-                                          new PointF(0.3f*Scale, 0.3f*Scale), new PointF(0.3f*Scale, 0.1f*Scale),
-                                          new PointF(0.7f*Scale, 0.1f*Scale), new PointF(0.7f*Scale, 0.3f*Scale),
+                                          new PointF(0.3f*scale, 0.3f*scale), new PointF(0.3f*scale, 0.1f*scale),
+                                          new PointF(0.7f*scale, 0.1f*scale), new PointF(0.7f*scale, 0.3f*scale),
                                       };
 
                     var points3 = new[]
                                       {
-                                          new PointF(0.3f*Scale, 0.5f*Scale), new PointF(0.3f*Scale, 0.9f*Scale),
-                                          new PointF(0.7f*Scale, 0.9f*Scale), new PointF(0.7f*Scale, 0.5f*Scale),
-                                          new PointF(0.3f*Scale, 0.5f*Scale),
+                                          new PointF(0.3f*scale, 0.5f*scale), new PointF(0.3f*scale, 0.9f*scale),
+                                          new PointF(0.7f*scale, 0.9f*scale), new PointF(0.7f*scale, 0.5f*scale),
+                                          new PointF(0.3f*scale, 0.5f*scale),
                                       };
 
                     g.DrawLines(p, points);
@@ -219,24 +224,24 @@ namespace ImageListMaker
             }
         }
 
-        public static Image Parent
+        public  Image Parent
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, LineWidth))
                 {
                     var points = new[]
                                      {
-                                         new PointF(0.2f*Scale, 0.5f*Scale), new PointF(0.5f*Scale, 0.2f*Scale),
-                                         new PointF(0.8f*Scale, 0.5f*Scale)
+                                         new PointF(0.2f*scale, 0.5f*scale), new PointF(0.5f*scale, 0.2f*scale),
+                                         new PointF(0.8f*scale, 0.5f*scale)
                                      };
                     var points2 = new[]
                                       {
-                                          new PointF(0.5f*Scale, 0.2f*Scale), new PointF(0.5f*Scale, 0.6f*Scale),
-                                          new PointF(0.3f*Scale, 0.8f*Scale)
+                                          new PointF(0.5f*scale, 0.2f*scale), new PointF(0.5f*scale, 0.6f*scale),
+                                          new PointF(0.3f*scale, 0.8f*scale)
                                       };
 
                     g.DrawLines(p, points);
@@ -246,24 +251,24 @@ namespace ImageListMaker
             }
         }
         
-        public static Image Cancel
+        public  Image Cancel
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, LineWidth))
                 {
                     var points = new[]
                                      {
-                                         new PointF(0.2f*Scale, 0.2f*Scale), 
-                                         new PointF(0.8f*Scale, 0.8f*Scale)
+                                         new PointF(0.2f*scale, 0.2f*scale), 
+                                         new PointF(0.8f*scale, 0.8f*scale)
                                      };
                     var points2 = new[]
                                       {
-                                          new PointF(0.2f*Scale, 0.8f*Scale),
-                                          new PointF(0.8f*Scale, 0.2f*Scale)
+                                          new PointF(0.2f*scale, 0.8f*scale),
+                                          new PointF(0.8f*scale, 0.2f*scale)
                                       };
 
                     g.DrawLines(p, points);
@@ -275,19 +280,19 @@ namespace ImageListMaker
 
         
 
-        public static Image NormalView
+        public  Image NormalView
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p25 = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, 2.5f))
                 {
-                    var points = new[] { new PointF(0.5f * Scale, 0.35f * Scale), new PointF(0.5f * Scale, 0.65f * Scale), };
+                    var points = new[] { new PointF(0.5f * scale, 0.35f * scale), new PointF(0.5f * scale, 0.65f * scale), };
 
-                    var r = new RectangleF(0, 0, Scale, Scale);
-                    r.Inflate(-0.1f * Scale, -0.2f * Scale);
+                    var r = new RectangleF(0, 0, scale, scale);
+                    r.Inflate(-0.1f * scale, -0.2f * scale);
                     g.DrawRectangle(p25, Rectangle.Round(r));
 
                     g.DrawLines(p25, points);
@@ -296,11 +301,11 @@ namespace ImageListMaker
             }
         }
 
-        public static Image Time
+        public  Image Time
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p25 = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, 2.5f))
@@ -308,11 +313,11 @@ namespace ImageListMaker
                 {
                     var points = new[]
                                      {
-                                         new PointF(0.5f*Scale, 0.3f*Scale), new PointF(0.5f*Scale, 0.5f*Scale),
-                                         new PointF(0.65f*Scale, 0.45f*Scale),
+                                         new PointF(0.5f*scale, 0.3f*scale), new PointF(0.5f*scale, 0.5f*scale),
+                                         new PointF(0.65f*scale, 0.45f*scale),
                                      };
 
-                    var r = new RectangleF(0, 0, Scale, Scale);
+                    var r = new RectangleF(0, 0, scale, scale);
                     r.Inflate(-5f, -5f);
                     g.DrawArc(p25, r, 0, 360);
 
@@ -322,7 +327,7 @@ namespace ImageListMaker
             }
         }
 
-        public static Image World
+        public  Image World
         {
             get
             {
@@ -331,14 +336,14 @@ namespace ImageListMaker
 
                 var polygons = new Polygons(xxx);
 
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 {
                     using (var p25 = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, 2.5f))
                     using (var p15 = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, 1.5f))
                     {
-                        var r = new Rectangle(0, 0, Scale, Scale);
+                        var r = new Rectangle(0, 0, scale, scale);
                         r.Inflate(-4, -4);
 
                         polygons.Scale(r);
@@ -355,20 +360,20 @@ namespace ImageListMaker
             }
         }
 
-        public static Image FullScreen
+        public  Image FullScreen
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
 
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p25 = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, 2.5f))
                 using (var pArrow = CreatePen(Color.White, LineJoin.Miter, LineCap.ArrowAnchor, LineCap.ArrowAnchor, 2f))
                 {
-                    var dim = 0.1f * Scale;
+                    var dim = 0.1f * scale;
 
-                    var r = new RectangleF(0, 0, Scale, Scale);
+                    var r = new RectangleF(0, 0, scale, scale);
                     r.Inflate(-dim, -dim * 2);
                     g.DrawRectangle(p25, Rectangle.Round(r));
 
@@ -380,19 +385,19 @@ namespace ImageListMaker
             }
         }
 
-        public static Image Resize
+        public  Image Resize
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
 
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var pArrow = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, 3.3f))
                 {
-                    var dim = 0.2f * Scale;
+                    var dim = 0.2f * scale;
 
-                    var r = new RectangleF(0, 0, Scale, Scale);
+                    var r = new RectangleF(0, 0, scale, scale);
                     r.Inflate(-dim, -dim);
 
                     DrawArrow(g, pArrow, Brushes.White, Util.BottomLeft(r), Util.TopLeft(r), 8);
@@ -403,7 +408,7 @@ namespace ImageListMaker
             }
         }
 
-        public static void DrawArrow(Graphics g, Pen pen, Brush brush, PointF p1, PointF p2, float size)
+        public  void DrawArrow(Graphics g, Pen pen, Brush brush, PointF p1, PointF p2, float size)
         {
             var tan = Math.Atan((p2.X - p1.X) / (p2.Y - p1.Y)) + (Math.PI / 2);
             var angle = Math.PI / 4;
@@ -414,14 +419,14 @@ namespace ImageListMaker
             g.FillPolygon(brush, head); //fill arrow head if desired
         }
 
-        private static PointF PointOnCircle(PointF centerPoint, double angle, float distance)
+        private  PointF PointOnCircle(PointF centerPoint, double angle, float distance)
         {
             return new PointF(
                 (float)(centerPoint.X + distance * Math.Cos(angle)),
                 (float)(centerPoint.Y + distance * Math.Sin(angle)));
         }
 
-        public static Image Left(Color color, float scale)
+        public  Image Left(Color color, float scale)
         {
             var result = new Bitmap((int)scale, (int)scale);
             using (var g = Graphics.FromImage(result))
@@ -433,7 +438,7 @@ namespace ImageListMaker
             return result;
         }
 
-        public static Image Right(Color color, float scale)
+        public  Image Right(Color color, float scale)
         {
             var result = new Bitmap((int)scale, (int)scale);
             using (var g = Graphics.FromImage(result))
@@ -448,7 +453,7 @@ namespace ImageListMaker
             return result;
         }
 
-        private static PointF[] GetLeftRightPoints(float x1, float x2, float y, float scale)
+        private  PointF[] GetLeftRightPoints(float x1, float x2, float y, float scale)
         {
             return new[]
                        {
@@ -457,7 +462,7 @@ namespace ImageListMaker
                        };
         }
 
-        public static Pen CreatePen(Color color, LineJoin miter, LineCap startCap, LineCap endCap, float width)
+        public  Pen CreatePen(Color color, LineJoin miter, LineCap startCap, LineCap endCap, float width)
         {
             var p = new Pen(color, width);
             p.LineJoin = miter;
@@ -466,7 +471,7 @@ namespace ImageListMaker
             return p;
         }
 
-        public static Bitmap Add(Color color, float scale)
+        public  Bitmap Add(Color color, float scale)
         {
             var result = new Bitmap((int)scale, (int)scale);
             using (var g = Graphics.FromImage(result))
@@ -481,7 +486,7 @@ namespace ImageListMaker
             return result;
         }
 
-        public static Bitmap Delete(Color color, float scale)
+        public  Bitmap Delete(Color color, float scale)
         {
             var result = new Bitmap((int)scale, (int)scale);
             using (var g = Graphics.FromImage(result))
@@ -496,7 +501,7 @@ namespace ImageListMaker
             return result;
         }
 
-        public static Bitmap PhotoSet(Color color, float scale)
+        public  Bitmap PhotoSet(Color color, float scale)
         {
             var result = new Bitmap((int)scale, (int)scale);
             using (var g = Graphics.FromImage(result))
@@ -523,26 +528,26 @@ namespace ImageListMaker
             return result;
         }
 
-        public static Image Crop
+        public  Image Crop
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, 4))
                 {
                     var points = new[]
                                      {
-                                         new PointF(0.8f*Scale, 0.3f*Scale),
-                                         new PointF(0.3f*Scale, 0.3f*Scale), 
-                                         new PointF(0.3f*Scale, 0.8f*Scale)
+                                         new PointF(0.8f*scale, 0.3f*scale),
+                                         new PointF(0.3f*scale, 0.3f*scale), 
+                                         new PointF(0.3f*scale, 0.8f*scale)
                                      };
                     var points2 = new[]
                                       {
-                                          new PointF(0.2f*Scale, 0.7f*Scale),
-                                          new PointF(0.7f*Scale, 0.7f*Scale),
-                                          new PointF(0.7f*Scale, 0.2f*Scale)
+                                          new PointF(0.2f*scale, 0.7f*scale),
+                                          new PointF(0.7f*scale, 0.7f*scale),
+                                          new PointF(0.7f*scale, 0.2f*scale)
                                       };
 
                     g.DrawLines(p, points);
@@ -552,27 +557,27 @@ namespace ImageListMaker
             }
         }
 
-        public static Image RotateLeft
+        public  Image RotateLeft
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, 4))
                 {
                     var points = new[]
                                      {
-                                         new PointF(inflate*Scale, 0.5f*Scale),
-                                         new PointF(0.5f*Scale, (1.0f - inflate)*Scale),
-                                         new PointF((1.0f - inflate)*Scale, 0.5f*Scale)
+                                         new PointF(inflate*scale, 0.5f*scale),
+                                         new PointF(0.5f*scale, (1.0f - inflate)*scale),
+                                         new PointF((1.0f - inflate)*scale, 0.5f*scale)
                                      };
 
                     var points2 = new[]
                                       {
-                                          new PointF(0.5f*Scale, (1.0f - inflate)*Scale),
-                                          new PointF(0.5f*Scale, inflate*Scale),
-                                          new PointF((1.0f - inflate)*Scale, inflate*Scale)
+                                          new PointF(0.5f*scale, (1.0f - inflate)*scale),
+                                          new PointF(0.5f*scale, inflate*scale),
+                                          new PointF((1.0f - inflate)*scale, inflate*scale)
                                       };
 
                     g.DrawLines(p, points);
@@ -582,27 +587,27 @@ namespace ImageListMaker
             }
         }
 
-        public static Image RotateRight
+        public  Image RotateRight
         {
             get
             {
-                var result = new Bitmap(Scale, Scale);
+                var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
                 using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, 4))
                 {
                     var points = new[]
                                      {
-                                         new PointF(inflate*Scale, 0.5f*Scale),
-                                         new PointF(0.5f*Scale, (1.0f - inflate)*Scale),
-                                         new PointF((1.0f - inflate)*Scale, 0.5f*Scale)
+                                         new PointF(inflate*scale, 0.5f*scale),
+                                         new PointF(0.5f*scale, (1.0f - inflate)*scale),
+                                         new PointF((1.0f - inflate)*scale, 0.5f*scale)
                                      };
 
                     var points2 = new[]
                                       {
-                                          new PointF(0.5f*Scale, (1.0f - inflate)*Scale),
-                                          new PointF(0.5f*Scale, inflate*Scale),
-                                          new PointF(inflate*Scale, inflate*Scale)
+                                          new PointF(0.5f*scale, (1.0f - inflate)*scale),
+                                          new PointF(0.5f*scale, inflate*scale),
+                                          new PointF(inflate*scale, inflate*scale)
                                       };
 
                     g.DrawLines(p, points);

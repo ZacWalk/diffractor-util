@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 
@@ -16,51 +15,36 @@ namespace ImageListMaker
         {
             Directory.CreateDirectory("out");
 
-            var skin = new ControlSkin();
-            skin.Save();
-
-            Bitmap tbLarge = CreateLargeToolbar();
-            Bitmap tbSmall = CreateSmallToolbar(tbLarge);
+            Bitmap tbLarge = CreateToolbar(32);
+            Bitmap tbSmall = CreateToolbar(16);
 
             tbLarge.Save(@"out\tb_large.bmp", ImageFormat.Bmp);
             tbSmall.Save(@"out\tb_small.bmp", ImageFormat.Bmp);
         }
 
-        private static Bitmap CreateSmallToolbar(Bitmap tb)
+        private static Bitmap CreateToolbar(int xy)
         {
-            int cx = tb.Width/2;
-            int cy = tb.Height/2;
-            var tbSmall = new Bitmap(cx, cy, PixelFormat.Format32bppArgb);
+            var draw = new DrawIcon(xy);
 
-            using (Graphics g = Graphics.FromImage(tbSmall))
-            using (new HighQualityRendering(g))
-            {
-                g.DrawImage(tb, 0, 0, cx, cy);
-            }
-            return tbSmall;
-        }
-
-        private static Bitmap CreateLargeToolbar()
-        {
             var images = new List<Image>
                              {
-                                 DrawIcon.Cancel,
-                                 DrawIcon.Back,
-                                 DrawIcon.Next,
-                                 DrawIcon.Parent,
-                                 DrawIcon.Left(Color.White, DrawIcon.Scale),
-                                 DrawIcon.Right(Color.White, DrawIcon.Scale),
-                                 DrawIcon.Play,
-                                 DrawIcon.Pause,
-                                 DrawIcon.BackImage,
-                                 DrawIcon.NextImage,
+                                 draw.Cancel,
+                                 draw.Back,
+                                 draw.Next,
+                                 draw.Parent,
+                                 draw.Left(Color.White, draw.scale),
+                                 draw.Right(Color.White, draw.scale),
+                                 draw.Play,
+                                 draw.Pause,
+                                 draw.BackImage,
+                                 draw.NextImage,
                                  new Bitmap("Icons\\Globe.png"),
                                  new Bitmap("Icons\\Pictures.png"),
                                  new Bitmap("Icons\\Print.png"),
                                  new Bitmap("Icons\\Time.png"),
-                                 DrawIcon.Crop,
-                                 DrawIcon.RotateLeft,
-                                 DrawIcon.RotateRight,
+                                 draw.Crop,
+                                 draw.RotateLeft,
+                                 draw.RotateRight,
                                  new Bitmap("Icons\\Dashboard.png"),
                                  new Bitmap("Icons\\Cancel.png"),
                                  new Bitmap("Icons\\Check.png"),
@@ -84,6 +68,7 @@ namespace ImageListMaker
                                  new Bitmap("Icons\\facebook.png"),
                                  new Bitmap("Icons\\flickr.png"),
                                  new Bitmap("Icons\\Fullscreen.png"),
+                                 new Bitmap("Icons\\Fullscreen2.png"),
                                  new Bitmap("Icons\\Graph.png"),
                                  new Bitmap("Icons\\Graph2.png"),
                                  new Bitmap("Icons\\Idea.png"),
@@ -102,76 +87,31 @@ namespace ImageListMaker
                                  new Bitmap("Icons\\twitter.png"),
                                  new Bitmap("Icons\\Video.png"),
                                  new Bitmap("Icons\\Zoom.png"),
+                                 new Bitmap("Icons\\color_wheel.png"),
+                                 new Bitmap("Icons\\save.png"),
+                                 new Bitmap("Icons\\Sort.png"),
+                                 new Bitmap("Icons\\Tools.png"),
+                                 new Bitmap("Icons\\Utilities.png"),
+                                 new Bitmap("Icons\\Folders.png"),
+                                 new Bitmap("Icons\\SmallItems.png"),
+                                 new Bitmap("Icons\\Photo.png"),
+                                 new Bitmap("Icons\\Help.png"),
+                                 new Bitmap("Icons\\Support.png"),
                              };
 
             int x = 0;
-            var tb = new Bitmap(DrawIcon.Scale*images.Count, DrawIcon.Scale, PixelFormat.Format32bppArgb);
+            var tb = new Bitmap(xy*images.Count, xy, PixelFormat.Format32bppArgb);
+
 
             using (Graphics g = Graphics.FromImage(tb))
             using (new HighQualityRendering(g))
             {
                 foreach (Image i in images)
                 {
-                    g.DrawImage(i, x++*DrawIcon.Scale, 0, DrawIcon.Scale, DrawIcon.Scale);
+                    g.DrawImage(i, x++*xy, 0, xy, xy);
                 }
             }
             return tb;
-        }
-    }
-
-    public class ControlSkin
-    {
-        private readonly Bitmap bitmap = new Bitmap(64, 64, PixelFormat.Format32bppPArgb);
-
-        public void RoundRectangle(Graphics g, Brush b, float h, float v, float width, float height, float radius)
-        {
-            using (var gp = new GraphicsPath())
-            {
-                gp.AddLine(h + radius, v, h + width - (radius*2), v);
-                gp.AddArc(h + width - (radius*2), v, radius*2, radius*2, 270, 90);
-                gp.AddLine(h + width, v + radius, h + width, v + height - (radius*2));
-                gp.AddArc(h + width - (radius*2), v + height - (radius*2), radius*2, radius*2, 0, 90); // Corner
-                gp.AddLine(h + width - (radius*2), v + height, h + radius, v + height);
-                gp.AddArc(h, v + height - (radius*2), radius*2, radius*2, 90, 90);
-                gp.AddLine(h, v + height - (radius*2), h, v + radius);
-                gp.AddArc(h, v, radius*2, radius*2, 180, 90);
-                gp.CloseFigure();
-
-                g.FillPath(b, gp);
-            }
-        }
-
-        public void Save()
-        {
-            using (Graphics g = Graphics.FromImage(bitmap))
-            using (new HighQualityRendering(g))
-            {
-                //g.Clear(Color.FromArgb(0x33, 0x38, 0x40));
-                RoundRectangle(g, Brushes.Black, 1, 1, 29, 29, 6);
-
-                DrawScrollBars(g, Color.FromArgb(0x80, Color.White), 32);
-                DrawScrollBars(g, Color.FromArgb(0xD0, 0x11, 0x66, 0xCC), 48);
-            }
-
-            bitmap.Save(@"out\Controls.bmp", ImageFormat.Bmp);
-        }
-
-        private void DrawScrollBars(Graphics g, Color c, int x)
-        {
-            using (Pen p = DrawIcon.CreatePen(c, LineJoin.Miter, LineCap.Round, LineCap.Round, 4))
-            {
-                var pointsU = new[] {new PointF(x + 4, 12), new PointF(x + 8, 4), new PointF(x + 12, 12)};
-                var pointsD = new[] {new PointF(x + 4, 64 - 12), new PointF(x + 8, 64 - 4), new PointF(x + 12, 64 - 12)};
-
-                g.DrawLines(p, pointsU);
-                g.DrawLines(p, pointsD);
-            }
-
-            using (Pen p = DrawIcon.CreatePen(c, LineJoin.Miter, LineCap.Round, LineCap.Round, 8))
-            {
-                var points = new[] {new PointF(x + 8, 24), new PointF(x + 8, 64 - 24)};
-                g.DrawLines(p, points);
-            }
         }
     }
 }
