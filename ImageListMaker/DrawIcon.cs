@@ -7,7 +7,6 @@ namespace ImageListMaker
     public class DrawIcon
     {
         private const float inflate = 0.2f;
-        private const float LineWidth = 5f;
         public int scale = 32;
 
         public DrawIcon(int scale)
@@ -22,7 +21,7 @@ namespace ImageListMaker
                 var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
-                using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, LineWidth))
+                using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, scale / 6.0f))
                 {
                     var points = new[]
                                      {
@@ -50,7 +49,7 @@ namespace ImageListMaker
                 var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
-                using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, LineWidth))
+                using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, scale / 6.0f))
                 {
                     var points = new[]
                                      {
@@ -79,7 +78,7 @@ namespace ImageListMaker
                 var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
-                using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, LineWidth))
+                using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, scale / 6.0f))
                 {
                     g.DrawLines(p, GetLeftRightPoints(0.4f, 0.2f, 0.3f, scale));
                     g.DrawLines(p, GetLeftRightPoints(0.8f, 0.6f, 0.3f, scale));
@@ -95,7 +94,7 @@ namespace ImageListMaker
                 var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
-                using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, LineWidth))
+                using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, scale / 6.0f))
                 {
                     g.DrawLines(p, GetLeftRightPoints(0.2f, 0.4f, 0.3f, scale));
                     g.DrawLines(p, GetLeftRightPoints(0.6f, 0.8f, 0.3f, scale));
@@ -111,7 +110,7 @@ namespace ImageListMaker
                 var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
-                using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, LineWidth))
+                using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, scale / 6.0f))
                 {
                     g.DrawPolygon(p, GetLeftRightPoints(0.3f, 0.7f, 0.2f, scale));
                 }
@@ -126,7 +125,7 @@ namespace ImageListMaker
                 var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
-                using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, LineWidth))
+                using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, scale / 6.0f))
                 {
                     var xx = scale / 3f;
                     var top = 0.2f * scale;
@@ -145,7 +144,7 @@ namespace ImageListMaker
                 var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
-                using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, LineWidth))
+                using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, scale / 6.0f))
                 {
                     var inflateX = 0.3f;
                     var inflateY = 0.4f;
@@ -172,7 +171,7 @@ namespace ImageListMaker
                 var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
-                using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, LineWidth))
+                using (var p = CreatePen(Color.White, LineJoin.Round, LineCap.Round, LineCap.Round, scale / 6.0f))
                 {
                     var xx = 2 + 0.5f * scale;
 
@@ -231,7 +230,7 @@ namespace ImageListMaker
                 var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
-                using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, LineWidth))
+                using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, scale / 6.0f))
                 {
                     var points = new[]
                                      {
@@ -258,7 +257,7 @@ namespace ImageListMaker
                 var result = new Bitmap(scale, scale);
                 using (var g = Graphics.FromImage(result))
                 using (new HighQualityRendering(g))
-                using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, LineWidth))
+                using (var p = CreatePen(Color.White, LineJoin.Miter, LineCap.Round, LineCap.Round, scale / 6.0f))
                 {
                     var points = new[]
                                      {
@@ -431,7 +430,7 @@ namespace ImageListMaker
             var result = new Bitmap((int)scale, (int)scale);
             using (var g = Graphics.FromImage(result))
             using (new HighQualityRendering(g))
-            using (var p = CreatePen(color, LineJoin.Round, LineCap.Round, LineCap.Round, scale / 6))
+            using (var p = CreatePen(color, LineJoin.Round, LineCap.Round, LineCap.Round, scale / 6.0f))
             {
                 g.DrawLines(p, GetLeftRightPoints(0.6f, 0.4f, 0.3f, scale));
             }
@@ -445,7 +444,7 @@ namespace ImageListMaker
             using (new HighQualityRendering(g))
             {
                 var cap = LineCap.Round;
-                using (var p = CreatePen(color, LineJoin.Round, cap, cap, scale / 6))
+                using (var p = CreatePen(color, LineJoin.Round, cap, cap, scale / 6.0f))
                 {
                     g.DrawLines(p, GetLeftRightPoints(0.4f, 0.6f, 0.3f, scale));
                 }
