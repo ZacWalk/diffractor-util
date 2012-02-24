@@ -97,6 +97,8 @@ namespace ImageListMaker
                                  new Bitmap("Icons\\Photo.png"),
                                  new Bitmap("Icons\\Help.png"),
                                  new Bitmap("Icons\\Support.png"),
+                                 new Bitmap("Icons\\Fit.png"),
+                                 new Bitmap("Icons\\New.png"),
                              };
 
             int x = 0;
