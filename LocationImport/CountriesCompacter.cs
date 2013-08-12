@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CountriesCompacter.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The countries compacter.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-#region Using Directives
+﻿#region
 
 using System;
 using System.Collections.Generic;
@@ -19,36 +10,36 @@ using System.Text;
 namespace LocationImport
 {
     /// <summary>
-    /// The countries compacter.
+    ///   The countries compacter.
     /// </summary>
     internal static class CountriesCompacter
     {
         /// <summary>
-        /// The shrink countries.
+        ///   The shrink countries.
         /// </summary>
-        /// <param name="countriesInputFileName">
-        /// The countries input file name.
+        /// <param name = "countriesInputFileName">
+        ///   The countries input file name.
         /// </param>
-        /// <param name="countriesOutputFileName">
-        /// The countries output file name.
+        /// <param name = "countriesOutputFileName">
+        ///   The countries output file name.
         /// </param>
         /// <returns>
-        /// The shrink countries.
+        ///   The shrink countries.
         /// </returns>
-        /// <exception cref="NotImplementedException">
+        /// <exception cref = "NotImplementedException">
         /// </exception>
-        public static int Shrink( string countriesInputFileName, string countriesOutputFileName )
+        public static int Shrink(string countriesInputFileName, string countriesOutputFileName)
         {
-            Console.WriteLine( "Using countries file: {0}", countriesInputFileName );
-            Console.WriteLine( "Producing countries file: {0}", countriesOutputFileName );
+            Console.WriteLine("Using countries file: {0}", countriesInputFileName);
+            Console.WriteLine("Producing countries file: {0}", countriesOutputFileName);
 
-            using( var outputFile = new StreamWriter( countriesOutputFileName, false, Encoding.UTF8 ) )
+            using (var outputFile = new StreamWriter(countriesOutputFileName, false, Encoding.UTF8))
             {
-                var loadedCountries = LoadCountries( countriesInputFileName );
+                var loadedCountries = LoadCountries(countriesInputFileName);
 
-                SortCountries( loadedCountries );
+                SortCountries(loadedCountries);
 
-                WriteCountries( loadedCountries, outputFile );
+                WriteCountries(loadedCountries, outputFile);
             }
 
 
@@ -56,88 +47,88 @@ namespace LocationImport
         }
 
         /// <summary>
-        /// The sort countries.
+        ///   The sort countries.
         /// </summary>
-        /// <param name="loadedCities">
-        /// The loaded cities.
+        /// <param name = "loadedCities">
+        ///   The loaded cities.
         /// </param>
-        private static void SortCountries( List< Record > loadedCities )
+        private static void SortCountries(List<Record> loadedCities)
         {
-            Console.Write( "\rSorting countries..." );
-            loadedCities.Sort( new RecordComparer() );
-            Console.WriteLine( "\rSorting countries, completed." );
+            Console.Write("\rSorting countries...");
+            loadedCities.Sort(new RecordComparer());
+            Console.WriteLine("\rSorting countries, completed.");
         }
 
         /// <summary>
-        /// The write countries.
+        ///   The write countries.
         /// </summary>
-        /// <param name="loadedCountries">
-        /// The loaded countries.
+        /// <param name = "loadedCountries">
+        ///   The loaded countries.
         /// </param>
-        /// <param name="outputFile">
-        /// The output file.
+        /// <param name = "outputFile">
+        ///   The output file.
         /// </param>
-        private static void WriteCountries( List< Record > loadedCountries, StreamWriter outputFile )
+        private static void WriteCountries(List<Record> loadedCountries, StreamWriter outputFile)
         {
             var recordsLoaded = 0;
-            foreach( var record in loadedCountries )
+            foreach (var record in loadedCountries)
             {
-                if( 0 == recordsLoaded % OutputHelpers.ConsoleOutputInterval )
+                if (0 == recordsLoaded%OutputHelpers.ConsoleOutputInterval)
                 {
-                    Console.Write( "\rWriting {0} countries...", recordsLoaded );
+                    Console.Write("\rWriting {0} countries...", recordsLoaded);
                 }
 
-                outputFile.Write( record );
-                outputFile.Write( '\n' );
+                outputFile.Write(record);
+                outputFile.Write('\n');
                 ++recordsLoaded;
             }
 
-            Console.WriteLine( "\rWriting {0} countries, completed.", recordsLoaded );
+            Console.WriteLine("\rWriting {0} countries, completed.", recordsLoaded);
         }
 
         /// <summary>
-        /// The load countries.
+        ///   The load countries.
         /// </summary>
-        /// <param name="countriesInputFileName">
-        /// The countries input file name.
+        /// <param name = "countriesInputFileName">
+        ///   The countries input file name.
         /// </param>
         /// <returns>
         /// </returns>
-        private static List< Record > LoadCountries( string countriesInputFileName )
+        private static List<Record> LoadCountries(string countriesInputFileName)
         {
-            var loadedCountries = new List< Record >();
+            var loadedCountries = new List<Record>();
 
             var recordsLoaded = 0;
-            using(
-                var sourceDataReader = new TabSeparatedValueReader( countriesInputFileName, Encoding.UTF8, 
-                                                                    CountriesColumns.ColumnHeaders, 
-                                                                    Detectors.CommentDetector ) )
+            using (
+                var sourceDataReader = new TabSeparatedValueReader(countriesInputFileName, Encoding.UTF8,
+                                                                   CountriesColumns.ColumnHeaders,
+                                                                   Detectors.CommentDetector))
             {
-                var columns = new CountriesColumns( sourceDataReader );
+                var columns = new CountriesColumns(sourceDataReader);
 
-                while( sourceDataReader.Read() )
+                while (sourceDataReader.Read())
                 {
-                    if( 0 == recordsLoaded % OutputHelpers.ConsoleOutputInterval )
+                    if (0 == recordsLoaded%OutputHelpers.ConsoleOutputInterval)
                     {
-                        Console.Write( "\rLoaded {0} countries...", recordsLoaded );
+                        Console.Write("\rLoaded {0} countries...", recordsLoaded);
                     }
 
-                    var rec = new Record( columns, sourceDataReader );
+                    var rec = new Record(columns, sourceDataReader);
 
-                    loadedCountries.Add( rec );
+                    loadedCountries.Add(rec);
 
                     ++recordsLoaded;
                 }
             }
 
-            Console.WriteLine( "\rLoaded {0} countries, completed.", recordsLoaded );
+            Console.WriteLine("\rLoaded {0} countries, completed.", recordsLoaded);
             return loadedCountries;
         }
 
         #region Nested type: Record
 
         /// <summary>
-        /// The record.
+        ///   The record.
         /// </summary>
         internal sealed class Record
         {
@@ -152,19 +143,19 @@ namespace LocationImport
             private readonly string name;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="Record"/> class.
+            ///   Initializes a new instance of the <see cref = "Record" /> class.
             /// </summary>
-            /// <param name="columns">
-            /// The columns.
+            /// <param name = "columns">
+            ///   The columns.
             /// </param>
-            /// <param name="sourceDataReader">
-            /// The source data reader.
+            /// <param name = "sourceDataReader">
+            ///   The source data reader.
             /// </param>
-            public Record( CountriesColumns columns, TabSeparatedValueReader sourceDataReader )
+            public Record(CountriesColumns columns, TabSeparatedValueReader sourceDataReader)
             {
                 // var id = columns.Id( sourceDataReader );
-                name = columns.Name( sourceDataReader );
-                code = columns.IsoCode( sourceDataReader );
+                name = columns.Name(sourceDataReader);
+                code = columns.IsoCode(sourceDataReader);
             }
 
             /// <summary>
@@ -172,10 +163,7 @@ namespace LocationImport
             /// </summary>
             public string Name
             {
-                get
-                {
-                    return name;
-                }
+                get { return name; }
             }
 
             /// <summary>
@@ -183,21 +171,18 @@ namespace LocationImport
             /// </summary>
             public string Code
             {
-                get
-                {
-                    return code;
-                }
+                get { return code; }
             }
 
             /// <summary>
-            /// The to string.
+            ///   The to string.
             /// </summary>
             /// <returns>
-            /// The to string.
+            ///   The to string.
             /// </returns>
             public override string ToString()
             {
-                return string.Format( "{0}\t{1}", code, name );
+                return string.Format("{0}\t{1}", code, name);
             }
         }
 
@@ -206,30 +191,30 @@ namespace LocationImport
         #region Nested type: RecordComparer
 
         /// <summary>
-        /// The record comparer.
+        ///   The record comparer.
         /// </summary>
-        private sealed class RecordComparer : IComparer< Record >
+        private sealed class RecordComparer : IComparer<Record>
         {
             #region IComparer<Record> Members
 
             /// <summary>
-            /// The compare.
+            ///   The compare.
             /// </summary>
-            /// <param name="x">
-            /// The x.
+            /// <param name = "x">
+            ///   The x.
             /// </param>
-            /// <param name="y">
-            /// The y.
+            /// <param name = "y">
+            ///   The y.
             /// </param>
             /// <returns>
-            /// The compare.
+            ///   The compare.
             /// </returns>
-            public int Compare( Record x, Record y )
+            public int Compare(Record x, Record y)
             {
-                var cmp = StringComparer.InvariantCulture.Compare( x.Name, y.Name );
-                if( 0 == cmp )
+                var cmp = StringComparer.InvariantCulture.Compare(x.Name, y.Name);
+                if (0 == cmp)
                 {
-                    cmp = StringComparer.InvariantCulture.Compare( x.Code, y.Code );
+                    cmp = StringComparer.InvariantCulture.Compare(x.Code, y.Code);
                 }
 
                 return cmp;

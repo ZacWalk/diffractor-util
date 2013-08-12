@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StatesCompacter.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The states compacter.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-#region Using Directives
+﻿#region
 
 using System;
 using System.Collections.Generic;
@@ -19,36 +10,36 @@ using System.Text;
 namespace LocationImport
 {
     /// <summary>
-    /// The states compacter.
+    ///   The states compacter.
     /// </summary>
     internal class StatesCompacter
     {
         /// <summary>
-        /// The shrink states.
+        ///   The shrink states.
         /// </summary>
-        /// <param name="statesInputFileName">
-        /// The states input file name.
+        /// <param name = "statesInputFileName">
+        ///   The states input file name.
         /// </param>
-        /// <param name="statesOutputFileName">
-        /// The states output file name.
+        /// <param name = "statesOutputFileName">
+        ///   The states output file name.
         /// </param>
         /// <returns>
-        /// The shrink states.
+        ///   The shrink states.
         /// </returns>
-        /// <exception cref="NotImplementedException">
+        /// <exception cref = "NotImplementedException">
         /// </exception>
-        public static int Shrink( string statesInputFileName, string statesOutputFileName )
+        public static int Shrink(string statesInputFileName, string statesOutputFileName)
         {
-            Console.WriteLine( "Using states file: {0}", statesInputFileName );
-            Console.WriteLine( "Producing states file: {0}", statesOutputFileName );
+            Console.WriteLine("Using states file: {0}", statesInputFileName);
+            Console.WriteLine("Producing states file: {0}", statesOutputFileName);
 
-            using( var outputFile = new StreamWriter( statesOutputFileName, false, Encoding.UTF8 ) )
+            using (var outputFile = new StreamWriter(statesOutputFileName, false, Encoding.UTF8))
             {
-                var loadedCountries = LoadStates( statesInputFileName );
+                var loadedCountries = LoadStates(statesInputFileName);
 
-                SortStates( loadedCountries );
+                SortStates(loadedCountries);
 
-                WriteStates( loadedCountries, outputFile );
+                WriteStates(loadedCountries, outputFile);
             }
 
 
@@ -56,88 +47,88 @@ namespace LocationImport
         }
 
         /// <summary>
-        /// The sort states.
+        ///   The sort states.
         /// </summary>
-        /// <param name="loadedStates">
-        /// The loaded states.
+        /// <param name = "loadedStates">
+        ///   The loaded states.
         /// </param>
-        private static void SortStates( List< Record > loadedStates )
+        private static void SortStates(List<Record> loadedStates)
         {
-            Console.Write( "\rSorting countries..." );
-            loadedStates.Sort( new RecordComparer() );
-            Console.WriteLine( "\rSorting states, completed." );
+            Console.Write("\rSorting countries...");
+            loadedStates.Sort(new RecordComparer());
+            Console.WriteLine("\rSorting states, completed.");
         }
 
         /// <summary>
-        /// The write states.
+        ///   The write states.
         /// </summary>
-        /// <param name="loadedStates">
-        /// The loaded states.
+        /// <param name = "loadedStates">
+        ///   The loaded states.
         /// </param>
-        /// <param name="outputFile">
-        /// The output file.
+        /// <param name = "outputFile">
+        ///   The output file.
         /// </param>
-        private static void WriteStates( List< Record > loadedStates, StreamWriter outputFile )
+        private static void WriteStates(List<Record> loadedStates, StreamWriter outputFile)
         {
             var recordsLoaded = 0;
-            foreach( var record in loadedStates )
+            foreach (var record in loadedStates)
             {
-                if( 0 == recordsLoaded % OutputHelpers.ConsoleOutputInterval )
+                if (0 == recordsLoaded%OutputHelpers.ConsoleOutputInterval)
                 {
-                    Console.Write( "\rWriting {0} states...", recordsLoaded );
+                    Console.Write("\rWriting {0} states...", recordsLoaded);
                 }
 
-                outputFile.Write( record );
-                outputFile.Write( '\n' );
+                outputFile.Write(record);
+                outputFile.Write('\n');
                 ++recordsLoaded;
             }
 
-            Console.WriteLine( "\rWriting {0} states, completed.", recordsLoaded );
+            Console.WriteLine("\rWriting {0} states, completed.", recordsLoaded);
         }
 
         /// <summary>
-        /// The load states.
+        ///   The load states.
         /// </summary>
-        /// <param name="statesInputFileName">
-        /// The states input file name.
+        /// <param name = "statesInputFileName">
+        ///   The states input file name.
         /// </param>
         /// <returns>
         /// </returns>
-        private static List< Record > LoadStates( string statesInputFileName )
+        private static List<Record> LoadStates(string statesInputFileName)
         {
-            var loadedStates = new List< Record >();
+            var loadedStates = new List<Record>();
 
             var recordsLoaded = 0;
-            using(
-                var sourceDataReader = new TabSeparatedValueReader( statesInputFileName, Encoding.UTF8, 
-                                                                    StatesColumns.ColumnHeaders, 
-                                                                    Detectors.CommentDetector ) )
+            using (
+                var sourceDataReader = new TabSeparatedValueReader(statesInputFileName, Encoding.UTF8,
+                                                                   StatesColumns.ColumnHeaders,
+                                                                   Detectors.CommentDetector))
             {
-                var columns = new StatesColumns( sourceDataReader );
+                var columns = new StatesColumns(sourceDataReader);
 
-                while( sourceDataReader.Read() )
+                while (sourceDataReader.Read())
                 {
-                    if( 0 == recordsLoaded % OutputHelpers.ConsoleOutputInterval )
+                    if (0 == recordsLoaded%OutputHelpers.ConsoleOutputInterval)
                     {
-                        Console.Write( "\rLoaded {0} states...", recordsLoaded );
+                        Console.Write("\rLoaded {0} states...", recordsLoaded);
                     }
 
-                    var rec = new Record( columns, sourceDataReader );
+                    var rec = new Record(columns, sourceDataReader);
 
-                    loadedStates.Add( rec );
+                    loadedStates.Add(rec);
 
                     ++recordsLoaded;
                 }
             }
 
-            Console.WriteLine( "\rLoaded {0} states, completed.", recordsLoaded );
+            Console.WriteLine("\rLoaded {0} states, completed.", recordsLoaded);
             return loadedStates;
         }
 
         #region Nested type: Record
 
         /// <summary>
-        /// The record.
+        ///   The record.
         /// </summary>
         internal sealed class Record
         {
@@ -152,19 +143,19 @@ namespace LocationImport
             private readonly string name;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="Record"/> class.
+            ///   Initializes a new instance of the <see cref = "Record" /> class.
             /// </summary>
-            /// <param name="columns">
-            /// The columns.
+            /// <param name = "columns">
+            ///   The columns.
             /// </param>
-            /// <param name="sourceDataReader">
-            /// The source data reader.
+            /// <param name = "sourceDataReader">
+            ///   The source data reader.
             /// </param>
-            public Record( StatesColumns columns, TabSeparatedValueReader sourceDataReader )
+            public Record(StatesColumns columns, TabSeparatedValueReader sourceDataReader)
             {
                 // var id = columns.Id( sourceDataReader );
-                name = columns.Name( sourceDataReader );
-                code = columns.Code( sourceDataReader );
+                name = columns.Name(sourceDataReader);
+                code = columns.Code(sourceDataReader);
             }
 
             /// <summary>
@@ -172,10 +163,7 @@ namespace LocationImport
             /// </summary>
             public string Name
             {
-                get
-                {
-                    return name;
-                }
+                get { return name; }
             }
 
             /// <summary>
@@ -183,21 +171,18 @@ namespace LocationImport
             /// </summary>
             public string Code
             {
-                get
-                {
-                    return code;
-                }
+                get { return code; }
             }
 
             /// <summary>
-            /// The to string.
+            ///   The to string.
             /// </summary>
             /// <returns>
-            /// The to string.
+            ///   The to string.
             /// </returns>
             public override string ToString()
             {
-                return string.Format( "{0}\t{1}", code, name );
+                return string.Format("{0}\t{1}", code, name);
             }
         }
 
@@ -206,30 +191,30 @@ namespace LocationImport
         #region Nested type: RecordComparer
 
         /// <summary>
-        /// The record comparer.
+        ///   The record comparer.
         /// </summary>
-        private sealed class RecordComparer : IComparer< Record >
+        private sealed class RecordComparer : IComparer<Record>
         {
             #region IComparer<Record> Members
 
             /// <summary>
-            /// The compare.
+            ///   The compare.
             /// </summary>
-            /// <param name="x">
-            /// The x.
+            /// <param name = "x">
+            ///   The x.
             /// </param>
-            /// <param name="y">
-            /// The y.
+            /// <param name = "y">
+            ///   The y.
             /// </param>
             /// <returns>
-            /// The compare.
+            ///   The compare.
             /// </returns>
-            public int Compare( Record x, Record y )
+            public int Compare(Record x, Record y)
             {
-                var cmp = StringComparer.InvariantCulture.Compare( x.Name, y.Name );
-                if( 0 == cmp )
+                var cmp = StringComparer.InvariantCulture.Compare(x.Name, y.Name);
+                if (0 == cmp)
                 {
-                    cmp = StringComparer.InvariantCulture.Compare( x.Code, y.Code );
+                    cmp = StringComparer.InvariantCulture.Compare(x.Code, y.Code);
                 }
 
                 return cmp;

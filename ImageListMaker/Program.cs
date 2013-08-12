@@ -32,8 +32,8 @@ namespace ImageListMaker
                                  draw.Back,
                                  draw.Next,
                                  draw.Parent,
-                                 draw.Left(Color.White, draw.scale),
-                                 draw.Right(Color.White, draw.scale),
+                                 draw.Left(draw.scale),
+                                 draw.Right(draw.scale),
                                  draw.Play,
                                  draw.Pause,
                                  draw.BackImage,
@@ -45,7 +45,7 @@ namespace ImageListMaker
                                  draw.Crop,
                                  draw.RotateLeft,
                                  draw.RotateRight,
-                                 new Bitmap("Icons\\Dashboard.png"),
+                                 new Bitmap("Icons\\add.png"),
                                  new Bitmap("Icons\\Cancel.png"),
                                  new Bitmap("Icons\\Check.png"),
                                  new Bitmap("Icons\\Reset.png"),
@@ -99,6 +99,11 @@ namespace ImageListMaker
                                  new Bitmap("Icons\\Support.png"),
                                  new Bitmap("Icons\\Fit.png"),
                                  new Bitmap("Icons\\New.png"),
+                                 new Bitmap("Icons\\Camera.png"),
+                                 new Bitmap("Icons\\Document.png"),
+                                 new Bitmap("Icons\\Disk.png"),
+                                 new Bitmap("Icons\\Link.png"),
+                                 draw.Bars,
                              };
 
             int x = 0;

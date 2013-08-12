@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CommaSeparatedValueReader.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The comma separated value reader.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-#region Using Directives
+﻿#region
 
 using System;
 using System.Collections.Generic;
@@ -18,78 +9,78 @@ using System.Text;
 namespace LocationImport
 {
     /// <summary>
-    /// The comma separated value reader.
+    ///   The comma separated value reader.
     /// </summary>
     public sealed class CommaSeparatedValueReader : SeparatedValueReader
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommaSeparatedValueReader"/> class.
+        ///   Initializes a new instance of the <see cref = "CommaSeparatedValueReader" /> class.
         /// </summary>
-        /// <param name="fileName">
-        /// The file name.
+        /// <param name = "fileName">
+        ///   The file name.
         /// </param>
-        /// <param name="fileEncoding">
-        /// The file encoding.
+        /// <param name = "fileEncoding">
+        ///   The file encoding.
         /// </param>
-        /// <param name="columnHeaders">
-        /// The column headers.
+        /// <param name = "columnHeaders">
+        ///   The column headers.
         /// </param>
-        public CommaSeparatedValueReader( string fileName, Encoding fileEncoding, IEnumerable< string > columnHeaders )
-            : base( fileName, fileEncoding, ',', columnHeaders )
+        public CommaSeparatedValueReader(string fileName, Encoding fileEncoding, IEnumerable<string> columnHeaders)
+            : base(fileName, fileEncoding, ',', columnHeaders)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommaSeparatedValueReader"/> class.
+        ///   Initializes a new instance of the <see cref = "CommaSeparatedValueReader" /> class.
         /// </summary>
-        /// <param name="fileName">
-        /// The file name.
+        /// <param name = "fileName">
+        ///   The file name.
         /// </param>
-        /// <param name="fileEncoding">
-        /// The file encoding.
+        /// <param name = "fileEncoding">
+        ///   The file encoding.
         /// </param>
-        /// <param name="columnHeaders">
-        /// The column headers.
+        /// <param name = "columnHeaders">
+        ///   The column headers.
         /// </param>
-        /// <param name="isLineComment">
-        /// The is line comment.
+        /// <param name = "isLineComment">
+        ///   The is line comment.
         /// </param>
-        public CommaSeparatedValueReader( string fileName, 
-                                          Encoding fileEncoding, 
-                                          IEnumerable< string > columnHeaders, 
-                                          Func< string, bool > isLineComment )
-            : base( fileName, fileEncoding, ',', columnHeaders, isLineComment )
+        public CommaSeparatedValueReader(string fileName,
+                                         Encoding fileEncoding,
+                                         IEnumerable<string> columnHeaders,
+                                         Func<string, bool> isLineComment)
+            : base(fileName, fileEncoding, ',', columnHeaders, isLineComment)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommaSeparatedValueReader"/> class.
+        ///   Initializes a new instance of the <see cref = "CommaSeparatedValueReader" /> class.
         /// </summary>
-        /// <param name="fileName">
-        /// The file name.
+        /// <param name = "fileName">
+        ///   The file name.
         /// </param>
-        /// <param name="fileEncoding">
-        /// The file encoding.
+        /// <param name = "fileEncoding">
+        ///   The file encoding.
         /// </param>
-        public CommaSeparatedValueReader( string fileName, Encoding fileEncoding )
-            : base( fileName, fileEncoding, ',' )
+        public CommaSeparatedValueReader(string fileName, Encoding fileEncoding)
+            : base(fileName, fileEncoding, ',')
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommaSeparatedValueReader"/> class.
+        ///   Initializes a new instance of the <see cref = "CommaSeparatedValueReader" /> class.
         /// </summary>
-        /// <param name="fileName">
-        /// The file name.
+        /// <param name = "fileName">
+        ///   The file name.
         /// </param>
-        /// <param name="fileEncoding">
-        /// The file encoding.
+        /// <param name = "fileEncoding">
+        ///   The file encoding.
         /// </param>
-        /// <param name="isLineComment">
-        /// The is line comment.
+        /// <param name = "isLineComment">
+        ///   The is line comment.
         /// </param>
-        public CommaSeparatedValueReader( string fileName, Encoding fileEncoding, Func< string, bool > isLineComment )
-            : base( fileName, fileEncoding, ',', isLineComment )
+        public CommaSeparatedValueReader(string fileName, Encoding fileEncoding, Func<string, bool> isLineComment)
+            : base(fileName, fileEncoding, ',', isLineComment)
         {
         }
     }

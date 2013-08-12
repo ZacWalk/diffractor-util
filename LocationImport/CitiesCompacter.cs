@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CitiesCompacter.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The cities compacter.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-#region Using Directives
+﻿#region
 
 using System;
 using System.Collections.Generic;
@@ -20,121 +11,121 @@ using System.Text;
 namespace LocationImport
 {
     /// <summary>
-    /// The cities compacter.
+    ///   The cities compacter.
     /// </summary>
     internal static class CitiesCompacter
     {
         /// <summary>
-        /// The shrink cities.
+        ///   The shrink cities.
         /// </summary>
-        /// <param name="citiesInputFileName">
-        /// The cities input file name.
+        /// <param name = "citiesInputFileName">
+        ///   The cities input file name.
         /// </param>
-        /// <param name="citiesOutputFileName">
-        /// The cities output file name.
+        /// <param name = "citiesOutputFileName">
+        ///   The cities output file name.
         /// </param>
         /// <returns>
-        /// The shrink cities.
+        ///   The shrink cities.
         /// </returns>
-        /// <exception cref="NotImplementedException">
+        /// <exception cref = "NotImplementedException">
         /// </exception>
-        public static int Shrink( string citiesInputFileName, string citiesOutputFileName )
+        public static int Shrink(string citiesInputFileName, string citiesOutputFileName)
         {
-            Console.WriteLine( "Using cities file: {0}", citiesInputFileName );
-            Console.WriteLine( "Producing cities file: {0}", citiesOutputFileName );
+            Console.WriteLine("Using cities file: {0}", citiesInputFileName);
+            Console.WriteLine("Producing cities file: {0}", citiesOutputFileName);
 
-            using( var outputFile = new StreamWriter( citiesOutputFileName, false, Encoding.UTF8 ) )
+            using (var outputFile = new StreamWriter(citiesOutputFileName, false, Encoding.UTF8))
             {
-                var loadedCities = LoadCities( citiesInputFileName );
+                var loadedCities = LoadCities(citiesInputFileName);
 
-                SortCities( loadedCities );
+                SortCities(loadedCities);
 
-                WriteCities( loadedCities, outputFile );
+                WriteCities(loadedCities, outputFile);
             }
 
 
-            Console.WriteLine( "Shrinking complete." );
+            Console.WriteLine("Shrinking complete.");
 
             return 0;
         }
 
         /// <summary>
-        /// The sort cities.
+        ///   The sort cities.
         /// </summary>
-        /// <param name="loadedCities">
-        /// The loaded cities.
+        /// <param name = "loadedCities">
+        ///   The loaded cities.
         /// </param>
-        private static void SortCities( List< Record > loadedCities )
+        private static void SortCities(List<Record> loadedCities)
         {
-            Console.Write( "\rSorting cities..." );
-            loadedCities.Sort( new RecordComparer() );
-            Console.WriteLine( "\rSorting cities, completed." );
+            Console.Write("\rSorting cities...");
+            loadedCities.Sort(new RecordComparer());
+            Console.WriteLine("\rSorting cities, completed.");
         }
 
         /// <summary>
-        /// The write cities.
+        ///   The write cities.
         /// </summary>
-        /// <param name="loadedCities">
-        /// The loaded cities.
+        /// <param name = "loadedCities">
+        ///   The loaded cities.
         /// </param>
-        /// <param name="outputFile">
-        /// The output file.
+        /// <param name = "outputFile">
+        ///   The output file.
         /// </param>
-        private static void WriteCities( List< Record > loadedCities, StreamWriter outputFile )
+        private static void WriteCities(List<Record> loadedCities, StreamWriter outputFile)
         {
             long recordsLoaded = 0;
-            foreach( var record in loadedCities )
+            foreach (var record in loadedCities)
             {
-                outputFile.Write( record );
-                outputFile.Write( '\n' );
-                if( 0 == recordsLoaded % OutputHelpers.ConsoleOutputInterval )
+                outputFile.Write(record);
+                outputFile.Write('\n');
+                if (0 == recordsLoaded%OutputHelpers.ConsoleOutputInterval)
                 {
-                    Console.Write( "\rWrote {0} cities...", recordsLoaded );
+                    Console.Write("\rWrote {0} cities...", recordsLoaded);
                 }
 
                 ++recordsLoaded;
             }
 
-            Console.WriteLine( "\rWrote {0} cities, completed.", recordsLoaded );
+            Console.WriteLine("\rWrote {0} cities, completed.", recordsLoaded);
         }
 
         /// <summary>
-        /// The load cities.
+        ///   The load cities.
         /// </summary>
-        /// <param name="citiesInputFileName">
-        /// The cities input file name.
+        /// <param name = "citiesInputFileName">
+        ///   The cities input file name.
         /// </param>
         /// <returns>
         /// </returns>
-        private static List< Record > LoadCities( string citiesInputFileName )
+        private static List<Record> LoadCities(string citiesInputFileName)
         {
-            var ids = new List< int >();
+            var ids = new List<int>();
 
             long recordsLoaded = 0;
-            var loadedCities = new List< Record >();
+            var loadedCities = new List<Record>();
 
-            using(
-                var sourceDataReader = new TabSeparatedValueReader( citiesInputFileName, Encoding.UTF8, 
-                                                                    CitiesColumns.ColumnHeaders ) )
+            using (
+                var sourceDataReader = new TabSeparatedValueReader(citiesInputFileName, Encoding.UTF8,
+                                                                   CitiesColumns.ColumnHeaders))
             {
-                var columns = new CitiesColumns( sourceDataReader );
+                var columns = new CitiesColumns(sourceDataReader);
 
-                while( sourceDataReader.Read() )
+                while (sourceDataReader.Read())
                 {
-                    if( 0 == recordsLoaded % OutputHelpers.ConsoleOutputInterval )
+                    if (0 == recordsLoaded%OutputHelpers.ConsoleOutputInterval)
                     {
-                        Console.Write( "\rLoaded {0} cities...", recordsLoaded );
+                        Console.Write("\rLoaded {0} cities...", recordsLoaded);
                     }
 
-                    var rec = new Record( columns, sourceDataReader );
+                    var rec = new Record(columns, sourceDataReader);
 
-                    loadedCities.Add( rec );
+                    loadedCities.Add(rec);
 
                     ++recordsLoaded;
                 }
             }
 
-            Console.WriteLine( "\rLoaded {0} cities, completed.", recordsLoaded );
+            Console.WriteLine("\rLoaded {0} cities, completed.", recordsLoaded);
 
             return loadedCities;
         }
@@ -142,7 +133,7 @@ namespace LocationImport
         #region Nested type: Record
 
         /// <summary>
-        /// The record.
+        ///   The record.
         /// </summary>
         private sealed class Record
         {
@@ -157,7 +148,7 @@ namespace LocationImport
             private readonly string countryCode;
 
             /// <summary>
-            /// The id.
+            ///   The id.
             /// </summary>
             private readonly int id;
 
@@ -181,24 +172,27 @@ namespace LocationImport
             /// </summary>
             private readonly string stateCode;
 
+            private readonly double population;
+
             /// <summary>
-            /// Initializes a new instance of the <see cref="Record"/> class.
+            ///   Initializes a new instance of the <see cref = "Record" /> class.
             /// </summary>
-            /// <param name="columns">
-            /// The columns.
+            /// <param name = "columns">
+            ///   The columns.
             /// </param>
-            /// <param name="sourceDataReader">
-            /// The source data reader.
+            /// <param name = "sourceDataReader">
+            ///   The source data reader.
             /// </param>
-            public Record( CitiesColumns columns, IDataReader sourceDataReader )
+            public Record(CitiesColumns columns, IDataReader sourceDataReader)
             {
-                id = columns.Id( sourceDataReader );
-                name = columns.Name( sourceDataReader );
-                alternateNames = CompactAlternateNames( name, columns.AlternateNames( sourceDataReader ) );
-                latitude = columns.Latitude( sourceDataReader );
-                longitude = columns.Longitude( sourceDataReader );
-                stateCode = columns.StateCode( sourceDataReader );
-                countryCode = columns.CountryCode( sourceDataReader );
+                id = columns.Id(sourceDataReader);
+                name = columns.Name(sourceDataReader);
+                alternateNames = CompactAlternateNames(name, columns.AlternateNames(sourceDataReader));
+                latitude = columns.Latitude(sourceDataReader);
+                longitude = columns.Longitude(sourceDataReader);
+                stateCode = columns.StateCode(sourceDataReader);
+                countryCode = columns.CountryCode(sourceDataReader);
+                population = columns.Population(sourceDataReader);
             }
 
             /// <summary>
@@ -206,10 +200,7 @@ namespace LocationImport
             /// </summary>
             public string Name
             {
-                get
-                {
-                    return name;
-                }
+                get { return name; }
             }
 
             /// <summary>
@@ -217,10 +208,7 @@ namespace LocationImport
             /// </summary>
             public string StateCode
             {
-                get
-                {
-                    return stateCode;
-                }
+                get { return stateCode; }
             }
 
             /// <summary>
@@ -228,10 +216,7 @@ namespace LocationImport
             /// </summary>
             public string CountryCode
             {
-                get
-                {
-                    return countryCode;
-                }
+                get { return countryCode; }
             }
 
             /// <summary>
@@ -239,10 +224,12 @@ namespace LocationImport
             /// </summary>
             public double Longitude
             {
-                get
-                {
-                    return longitude;
-                }
+                get { return longitude; }
+            }
+
+            public double Population
+            {
+                get { return population; }
             }
 
             /// <summary>
@@ -250,10 +237,7 @@ namespace LocationImport
             /// </summary>
             public double Latitude
             {
-                get
-                {
-                    return latitude;
-                }
+                get { return latitude; }
             }
 
             /// <summary>
@@ -261,73 +245,67 @@ namespace LocationImport
             /// </summary>
             public string AlternateNames
             {
-                get
-                {
-                    return alternateNames;
-                }
+                get { return alternateNames; }
             }
 
             /// <summary>
-            /// Gets Id.
+            ///   Gets Id.
             /// </summary>
             public int Id
             {
-                get
-                {
-                    return id;
-                }
+                get { return id; }
             }
 
             /// <summary>
-            /// The compact alternate names.
+            ///   The compact alternate names.
             /// </summary>
-            /// <param name="actualName">
-            /// The actual name.
+            /// <param name = "actualName">
+            ///   The actual name.
             /// </param>
-            /// <param name="otherNames">
-            /// The other names.
+            /// <param name = "otherNames">
+            ///   The other names.
             /// </param>
             /// <returns>
-            /// The compact alternate names.
+            ///   The compact alternate names.
             /// </returns>
-            private static string CompactAlternateNames( string actualName, string otherNames )
+            private static string CompactAlternateNames(string actualName, string otherNames)
             {
-                if( string.IsNullOrEmpty( otherNames ) )
+                if (string.IsNullOrEmpty(otherNames))
                 {
                     return otherNames;
                 }
 
-                var candidates = otherNames.Split( ',' );
+                var candidates = otherNames.Split(',');
 
                 var sb = new StringBuilder();
-                foreach( var name in candidates )
+                foreach (var name in candidates)
                 {
-                    if( StringComparer.InvariantCultureIgnoreCase.Equals( actualName, name ) )
+                    if (StringComparer.InvariantCultureIgnoreCase.Equals(actualName, name))
                     {
                         continue;
                     }
 
-                    if( sb.Length != 0 )
+                    if (sb.Length != 0)
                     {
-                        sb.Append( "," );
+                        sb.Append(",");
                     }
 
-                    sb.Append( name );
+                    sb.Append(name);
                 }
 
                 return sb.ToString();
             }
 
             /// <summary>
-            /// The to string.
+            ///   The to string.
             /// </summary>
             /// <returns>
-            /// The to string.
+            ///   The to string.
             /// </returns>
             public override string ToString()
             {
-                return string.Format( "{0:0.#####}\t{1:0.#####}\t{2}\t{3}\t{4}\t{5}", Latitude, Longitude, Name, 
-                                      StateCode, CountryCode, AlternateNames );
+                return string.Format("{0:0.#####}\t{1:0.#####}\t{2}\t{3}\t{4}\t{5}\t{6}", Latitude, Longitude, Name,
+                                     StateCode, CountryCode, Population, AlternateNames);
             }
         }
 
@@ -336,50 +314,50 @@ namespace LocationImport
         #region Nested type: RecordComparer
 
         /// <summary>
-        /// The record comparer.
+        ///   The record comparer.
         /// </summary>
-        private sealed class RecordComparer : IComparer< Record >
+        private sealed class RecordComparer : IComparer<Record>
         {
             #region IComparer<Record> Members
 
             /// <summary>
-            /// The compare.
+            ///   The compare.
             /// </summary>
-            /// <param name="x">
-            /// The x.
+            /// <param name = "x">
+            ///   The x.
             /// </param>
-            /// <param name="y">
-            /// The y.
+            /// <param name = "y">
+            ///   The y.
             /// </param>
             /// <returns>
-            /// The compare.
+            ///   The compare.
             /// </returns>
-            public int Compare( Record x, Record y )
+            public int Compare(Record x, Record y)
             {
-                var cmp = StringComparer.InvariantCulture.Compare( x.Name, y.Name );
-                if( 0 == cmp )
+                var cmp = StringComparer.InvariantCulture.Compare(x.Name, y.Name);
+                if (0 == cmp)
                 {
-                    cmp = StringComparer.InvariantCulture.Compare( x.StateCode, y.StateCode );
+                    cmp = StringComparer.InvariantCulture.Compare(x.StateCode, y.StateCode);
                 }
 
-                if( 0 == cmp )
+                if (0 == cmp)
                 {
-                    cmp = StringComparer.InvariantCulture.Compare( x.CountryCode, y.CountryCode );
+                    cmp = StringComparer.InvariantCulture.Compare(x.CountryCode, y.CountryCode);
                 }
 
-                if( 0 == cmp )
+                if (0 == cmp)
                 {
-                    cmp = Comparer< double >.Default.Compare( x.Latitude, y.Latitude );
+                    cmp = Comparer<double>.Default.Compare(x.Latitude, y.Latitude);
                 }
 
-                if( 0 == cmp )
+                if (0 == cmp)
                 {
-                    cmp = Comparer< double >.Default.Compare( x.Longitude, y.Longitude );
+                    cmp = Comparer<double>.Default.Compare(x.Longitude, y.Longitude);
                 }
 
-                if( 0 == cmp )
+                if (0 == cmp)
                 {
-                    cmp = StringComparer.InvariantCulture.Compare( x.AlternateNames, y.AlternateNames );
+                    cmp = StringComparer.InvariantCulture.Compare(x.AlternateNames, y.AlternateNames);
                 }
 
                 return cmp;

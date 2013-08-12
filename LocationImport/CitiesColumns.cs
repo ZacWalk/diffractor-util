@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CitiesColumns.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The cities columns.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-#region Using Directives
+﻿#region
 
 using System;
 using System.Data;
@@ -17,10 +8,10 @@ using System.Data;
 namespace LocationImport
 {
     /// <summary>
-    /// The cities columns.
+    ///   The cities columns.
     /// </summary>
     /// <remarks>
-    /// Column names from: http://download.geonames.org/export/dump/readme.txt
+    ///   Column names from: http://download.geonames.org/export/dump/readme.txt
     /// </remarks>
     internal sealed class CitiesColumns
     {
@@ -60,6 +51,7 @@ namespace LocationImport
         ///   The country code column name.
         /// </summary>
         private const string countryCodeColumnName = "country code";
+        private const string populationColumnName = "population";
 
         #endregion
 
@@ -69,11 +61,11 @@ namespace LocationImport
         ///   The column headers.
         /// </summary>
         private static readonly string[] columnHeaders = {
-                                                             idColumnName, nameColumnName, "asciiname", 
-                                                             alternateNamesColumnName, latitudeColumnName, 
-                                                             longitudeColumnName, "feature class", "feature code", 
-                                                             countryCodeColumnName, "cc2", stateCodeColumnName, 
-                                                             "admin2 code", "admin3 code", "admin4 code", "population", 
+                                                             idColumnName, nameColumnName, "asciiname",
+                                                             alternateNamesColumnName, latitudeColumnName,
+                                                             longitudeColumnName, "feature class", "feature code",
+                                                             countryCodeColumnName, "cc2", stateCodeColumnName,
+                                                             "admin2 code", "admin3 code", "admin4 code", populationColumnName,
                                                              "elevation", "gtopo30", "timezone", "modification date"
                                                          };
 
@@ -116,28 +108,31 @@ namespace LocationImport
         /// </summary>
         private readonly int posStateCode;
 
+        private readonly int posPopulation;
+
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CitiesColumns"/> class.
+        ///   Initializes a new instance of the <see cref = "CitiesColumns" /> class.
         /// </summary>
-        /// <param name="sourceDataReader">
-        /// The source data reader.
+        /// <param name = "sourceDataReader">
+        ///   The source data reader.
         /// </param>
-        public CitiesColumns( IDataReader sourceDataReader )
+        public CitiesColumns(IDataReader sourceDataReader)
         {
-            if( sourceDataReader == null )
+            if (sourceDataReader == null)
             {
-                throw new ArgumentNullException( "sourceDataReader" );
+                throw new ArgumentNullException("sourceDataReader");
             }
 
-            posId = sourceDataReader.GetOrdinal( idColumnName );
-            posName = sourceDataReader.GetOrdinal( nameColumnName );
-            posAlternateNames = sourceDataReader.GetOrdinal( alternateNamesColumnName );
-            posLatitude = sourceDataReader.GetOrdinal( latitudeColumnName );
-            posLongitude = sourceDataReader.GetOrdinal( longitudeColumnName );
-            posStateCode = sourceDataReader.GetOrdinal( stateCodeColumnName );
-            posCountryCode = sourceDataReader.GetOrdinal( countryCodeColumnName );
+            posId = sourceDataReader.GetOrdinal(idColumnName);
+            posName = sourceDataReader.GetOrdinal(nameColumnName);
+            posAlternateNames = sourceDataReader.GetOrdinal(alternateNamesColumnName);
+            posLatitude = sourceDataReader.GetOrdinal(latitudeColumnName);
+            posLongitude = sourceDataReader.GetOrdinal(longitudeColumnName);
+            posStateCode = sourceDataReader.GetOrdinal(stateCodeColumnName);
+            posCountryCode = sourceDataReader.GetOrdinal(countryCodeColumnName);
+            posPopulation = sourceDataReader.GetOrdinal(populationColumnName);
         }
 
         /// <summary>
@@ -145,110 +140,112 @@ namespace LocationImport
         /// </summary>
         public static string[] ColumnHeaders
         {
-            get
-            {
-                return columnHeaders;
-            }
+            get { return columnHeaders; }
         }
 
         /// <summary>
-        /// The id.
+        ///   The id.
         /// </summary>
-        /// <param name="sourceDataReader">
-        /// The source data reader.
+        /// <param name = "sourceDataReader">
+        ///   The source data reader.
         /// </param>
         /// <returns>
-        /// The id.
+        ///   The id.
         /// </returns>
-        public int Id( IDataReader sourceDataReader )
+        public int Id(IDataReader sourceDataReader)
         {
-            return sourceDataReader.GetInt32( posId );
+            return sourceDataReader.GetInt32(posId);
         }
 
         /// <summary>
-        /// The name.
+        ///   The name.
         /// </summary>
-        /// <param name="sourceDataReader">
-        /// The source data reader.
+        /// <param name = "sourceDataReader">
+        ///   The source data reader.
         /// </param>
         /// <returns>
-        /// The name.
+        ///   The name.
         /// </returns>
-        public string Name( IDataReader sourceDataReader )
+        public string Name(IDataReader sourceDataReader)
         {
-            return sourceDataReader.GetString( posName );
+            return sourceDataReader.GetString(posName);
         }
 
         /// <summary>
-        /// The alternate names.
+        ///   The alternate names.
         /// </summary>
-        /// <param name="sourceDataReader">
-        /// The source data reader.
+        /// <param name = "sourceDataReader">
+        ///   The source data reader.
         /// </param>
         /// <returns>
-        /// The alternate names.
+        ///   The alternate names.
         /// </returns>
-        public string AlternateNames( IDataReader sourceDataReader )
+        public string AlternateNames(IDataReader sourceDataReader)
         {
-            return sourceDataReader.GetString( posAlternateNames );
+            return sourceDataReader.GetString(posAlternateNames);
         }
 
         /// <summary>
-        /// The latitude.
+        ///   The latitude.
         /// </summary>
-        /// <param name="sourceDataReader">
-        /// The source data reader.
+        /// <param name = "sourceDataReader">
+        ///   The source data reader.
         /// </param>
         /// <returns>
-        /// The latitude.
+        ///   The latitude.
         /// </returns>
-        public double Latitude( IDataReader sourceDataReader )
+        public double Latitude(IDataReader sourceDataReader)
         {
-            return sourceDataReader.GetDouble( posLatitude );
+            return sourceDataReader.GetDouble(posLatitude);
         }
 
 
         /// <summary>
-        /// The longitude.
+        ///   The longitude.
         /// </summary>
-        /// <param name="sourceDataReader">
-        /// The source data reader.
+        /// <param name = "sourceDataReader">
+        ///   The source data reader.
         /// </param>
         /// <returns>
-        /// The longitude.
+        ///   The longitude.
         /// </returns>
-        public double Longitude( IDataReader sourceDataReader )
+        public double Longitude(IDataReader sourceDataReader)
         {
-            return sourceDataReader.GetDouble( posLongitude );
+            return sourceDataReader.GetDouble(posLongitude);
+        }
+
+        public double Population(IDataReader sourceDataReader)
+        {
+            return sourceDataReader.GetDouble(posPopulation);
         }
 
 
         /// <summary>
-        /// The state code.
+        ///   The state code.
         /// </summary>
-        /// <param name="sourceDataReader">
-        /// The source data reader.
+        /// <param name = "sourceDataReader">
+        ///   The source data reader.
         /// </param>
         /// <returns>
-        /// The state code.
+        ///   The state code.
         /// </returns>
-        public string StateCode( IDataReader sourceDataReader )
+        public string StateCode(IDataReader sourceDataReader)
         {
-            return sourceDataReader.GetString( posStateCode );
+            return sourceDataReader.GetString(posStateCode);
         }
 
         /// <summary>
-        /// The country code.
+        ///   The country code.
         /// </summary>
-        /// <param name="sourceDataReader">
-        /// The source data reader.
+        /// <param name = "sourceDataReader">
+        ///   The source data reader.
         /// </param>
         /// <returns>
-        /// The country code.
+        ///   The country code.
         /// </returns>
-        public string CountryCode( IDataReader sourceDataReader )
+        public string CountryCode(IDataReader sourceDataReader)
         {
-            return sourceDataReader.GetString( posCountryCode );
+            return sourceDataReader.GetString(posCountryCode);
         }
     }
 }

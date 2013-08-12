@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CountriesColumns.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The countris columns.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-#region Using Directives
+﻿#region
 
 using System;
 using System.Data;
@@ -17,10 +8,10 @@ using System.Data;
 namespace LocationImport
 {
     /// <summary>
-    /// The countris columns.
+    ///   The countris columns.
     /// </summary>
     /// <remarks>
-    /// Column names from: CountryInfo.txt
+    ///   Column names from: CountryInfo.txt
     /// </remarks>
     internal sealed class CountriesColumns
     {
@@ -49,10 +40,10 @@ namespace LocationImport
         ///   The column headers.
         /// </summary>
         private static readonly string[] columnHeaders = {
-                                                             isocodeColumnName, "ISO3", idColumnName, "fips", 
-                                                             nameColumnName, "Capital", "Area(in sq km)", "Population", 
-                                                             "Continent", "tld", "CurrencyCode", "CurrencyName", "Phone", 
-                                                             "Postal Code", "Format	Postal Code Regex", "Languages", 
+                                                             isocodeColumnName, "ISO3", idColumnName, "fips",
+                                                             nameColumnName, "Capital", "Area(in sq km)", "Population",
+                                                             "Continent", "tld", "CurrencyCode", "CurrencyName", "Phone",
+                                                             "Postal Code", "Format	Postal Code Regex", "Languages",
                                                              "geonameid", "neighbours", "EquivalentFipsCode"
                                                          };
 
@@ -78,23 +69,23 @@ namespace LocationImport
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CountriesColumns"/> class.
+        ///   Initializes a new instance of the <see cref = "CountriesColumns" /> class.
         /// </summary>
-        /// <param name="sourceDataReader">
-        /// The source data reader.
+        /// <param name = "sourceDataReader">
+        ///   The source data reader.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref = "ArgumentNullException">
         /// </exception>
-        public CountriesColumns( IDataReader sourceDataReader )
+        public CountriesColumns(IDataReader sourceDataReader)
         {
-            if( sourceDataReader == null )
+            if (sourceDataReader == null)
             {
-                throw new ArgumentNullException( "sourceDataReader" );
+                throw new ArgumentNullException("sourceDataReader");
             }
 
-            posId = sourceDataReader.GetOrdinal( idColumnName );
-            posName = sourceDataReader.GetOrdinal( nameColumnName );
-            posIsoCode = sourceDataReader.GetOrdinal( isocodeColumnName );
+            posId = sourceDataReader.GetOrdinal(idColumnName);
+            posName = sourceDataReader.GetOrdinal(nameColumnName);
+            posIsoCode = sourceDataReader.GetOrdinal(isocodeColumnName);
         }
 
         /// <summary>
@@ -102,52 +93,49 @@ namespace LocationImport
         /// </summary>
         public static string[] ColumnHeaders
         {
-            get
-            {
-                return columnHeaders;
-            }
+            get { return columnHeaders; }
         }
 
         /// <summary>
-        /// The id.
+        ///   The id.
         /// </summary>
-        /// <param name="sourceDataReader">
-        /// The source data reader.
+        /// <param name = "sourceDataReader">
+        ///   The source data reader.
         /// </param>
         /// <returns>
-        /// The id.
+        ///   The id.
         /// </returns>
-        public int Id( IDataReader sourceDataReader )
+        public int Id(IDataReader sourceDataReader)
         {
-            return sourceDataReader.GetInt32( posId );
+            return sourceDataReader.GetInt32(posId);
         }
 
         /// <summary>
-        /// The name.
+        ///   The name.
         /// </summary>
-        /// <param name="sourceDataReader">
-        /// The source data reader.
+        /// <param name = "sourceDataReader">
+        ///   The source data reader.
         /// </param>
         /// <returns>
-        /// The name.
+        ///   The name.
         /// </returns>
-        public string Name( IDataReader sourceDataReader )
+        public string Name(IDataReader sourceDataReader)
         {
-            return sourceDataReader.GetString( posName );
+            return sourceDataReader.GetString(posName);
         }
 
         /// <summary>
-        /// The ISO code.
+        ///   The ISO code.
         /// </summary>
-        /// <param name="sourceDataReader">
-        /// The source data reader.
+        /// <param name = "sourceDataReader">
+        ///   The source data reader.
         /// </param>
         /// <returns>
-        /// The ISO code.
+        ///   The ISO code.
         /// </returns>
-        public string IsoCode( IDataReader sourceDataReader )
+        public string IsoCode(IDataReader sourceDataReader)
         {
-            return sourceDataReader.GetString( posIsoCode );
+            return sourceDataReader.GetString(posIsoCode);
         }
     }
 }

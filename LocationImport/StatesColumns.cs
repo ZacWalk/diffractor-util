@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StatesColumns.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The states columns.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-#region Using Directives
+﻿#region
 
 using System;
 using System.Data;
@@ -17,7 +8,7 @@ using System.Data;
 namespace LocationImport
 {
     /// <summary>
-    /// The states columns.
+    ///   The states columns.
     /// </summary>
     internal sealed class StatesColumns
     {
@@ -41,7 +32,7 @@ namespace LocationImport
         /// <summary>
         ///   The column headers.
         /// </summary>
-        private static readonly string[] columnHeaders = { codeColumnName, nameColumnName };
+        private static readonly string[] columnHeaders = {codeColumnName, nameColumnName};
 
         #endregion
 
@@ -60,22 +51,22 @@ namespace LocationImport
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StatesColumns"/> class.
+        ///   Initializes a new instance of the <see cref = "StatesColumns" /> class.
         /// </summary>
-        /// <param name="sourceDataReader">
-        /// The source data reader.
+        /// <param name = "sourceDataReader">
+        ///   The source data reader.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref = "ArgumentNullException">
         /// </exception>
-        public StatesColumns( IDataReader sourceDataReader )
+        public StatesColumns(IDataReader sourceDataReader)
         {
-            if( sourceDataReader == null )
+            if (sourceDataReader == null)
             {
-                throw new ArgumentNullException( "sourceDataReader" );
+                throw new ArgumentNullException("sourceDataReader");
             }
 
-            posName = sourceDataReader.GetOrdinal( nameColumnName );
-            posCode = sourceDataReader.GetOrdinal( codeColumnName );
+            posName = sourceDataReader.GetOrdinal(nameColumnName);
+            posCode = sourceDataReader.GetOrdinal(codeColumnName);
         }
 
         /// <summary>
@@ -83,38 +74,35 @@ namespace LocationImport
         /// </summary>
         public static string[] ColumnHeaders
         {
-            get
-            {
-                return columnHeaders;
-            }
+            get { return columnHeaders; }
         }
 
         /// <summary>
-        /// The name.
+        ///   The name.
         /// </summary>
-        /// <param name="sourceDataReader">
-        /// The source data reader.
+        /// <param name = "sourceDataReader">
+        ///   The source data reader.
         /// </param>
         /// <returns>
-        /// The name.
+        ///   The name.
         /// </returns>
-        public string Name( IDataReader sourceDataReader )
+        public string Name(IDataReader sourceDataReader)
         {
-            return sourceDataReader.GetString( posName );
+            return sourceDataReader.GetString(posName);
         }
 
         /// <summary>
-        /// The code.
+        ///   The code.
         /// </summary>
-        /// <param name="sourceDataReader">
-        /// The source data reader.
+        /// <param name = "sourceDataReader">
+        ///   The source data reader.
         /// </param>
         /// <returns>
-        /// The code.
+        ///   The code.
         /// </returns>
-        public string Code( IDataReader sourceDataReader )
+        public string Code(IDataReader sourceDataReader)
         {
-            return sourceDataReader.GetString( posCode );
+            return sourceDataReader.GetString(posCode);
         }
     }
 }

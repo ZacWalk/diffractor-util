@@ -1,16 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="OutputHelpers.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The output helpers.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace LocationImport
+﻿namespace LocationImport
 {
     /// <summary>
-    /// The output helpers.
+    ///   The output helpers.
     /// </summary>
     internal static class OutputHelpers
     {
