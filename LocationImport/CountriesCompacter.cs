@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 #endregion
@@ -28,14 +29,14 @@ namespace LocationImport
         /// </returns>
         /// <exception cref = "NotImplementedException">
         /// </exception>
-        public static int Shrink(string countriesInputFileName, string countriesOutputFileName)
+        public static int Shrink(string countriesInputFileName, string countriesInputFileName2, string countriesOutputFileName)
         {
             Console.WriteLine("Using countries file: {0}", countriesInputFileName);
             Console.WriteLine("Producing countries file: {0}", countriesOutputFileName);
 
             using (var outputFile = new StreamWriter(countriesOutputFileName, false, Encoding.UTF8))
             {
-                var loadedCountries = LoadCountries(countriesInputFileName);
+                var loadedCountries = LoadCountries(countriesInputFileName, countriesInputFileName2);
 
                 SortCountries(loadedCountries);
 
@@ -94,11 +95,13 @@ namespace LocationImport
         /// </param>
         /// <returns>
         /// </returns>
-        private static List<Record> LoadCountries(string countriesInputFileName)
+        private static List<Record> LoadCountries(string countriesInputFileName, string countriesInputFileName2)
         {
-            var loadedCountries = new List<Record>();
+            var loadedCountries = new Dictionary<string, Record>(StringComparer.OrdinalIgnoreCase);
 
             var recordsLoaded = 0;
+            var maxAlts = 0;
+
             using (
                 var sourceDataReader = new TabSeparatedValueReader(countriesInputFileName, Encoding.UTF8,
                                                                    CountriesColumns.ColumnHeaders,
@@ -113,16 +116,45 @@ namespace LocationImport
                         Console.Write("\rLoaded {0} countries...", recordsLoaded);
                     }
 
-                    var rec = new Record(columns, sourceDataReader);
+                    var rec = new Record();
+                    rec.name = columns.Name(sourceDataReader);
+                    var code = rec.code = columns.IsoCode(sourceDataReader);
 
-                    loadedCountries.Add(rec);
-
+                    loadedCountries[code] = rec;
                     ++recordsLoaded;
                 }
             }
 
+            // Alternative names stored in different file
+            var lines = File.ReadAllLines(countriesInputFileName2, Encoding.UTF8);
+
+            // "name";"nativeName";"tld";"cca2";"ccn3";"cca3";"currency";"callingCode";"capital";"altSpellings";"relevance";"region";"subregion";"language";"languageCodes";"translations";"population";"latlng";"demonym";"borders"
+
+            foreach(var line in lines)
+            {
+                var parts = line.Split(';');
+                var code = parts[3].Trim('"'); // country code
+                var alts = parts[9].Trim('"'); // alt names
+
+                if (loadedCountries.ContainsKey(code))
+                {
+                    if (code == "US")
+                    {
+                        // few extas for usa
+                        alts = alts + " United States,United States of America,America,the States,US,U.S.,USA,U.S.A.";
+                    }
+
+                    var altParts = alts.Split(',').Skip(1).Distinct().ToArray();
+                    loadedCountries[code].alts = altParts;
+                    if (altParts.Length > maxAlts) maxAlts = altParts.Length;
+                }
+            }
+
             Console.WriteLine("\rLoaded {0} countries, completed.", recordsLoaded);
-            return loadedCountries;
+            Console.WriteLine("\r       {0} maxumum alt names.", maxAlts);
+            var results = loadedCountries.Values.ToList<Record>();
+            results.Sort(delegate (Record c1, Record c2) { return String.Compare(c1.code, c2.code); });
+            return results;
         }
 
         #region Nested type: Record
@@ -132,57 +164,14 @@ namespace LocationImport
         /// </summary>
         internal sealed class Record
         {
-            /// <summary>
-            ///   The code.
-            /// </summary>
-            private readonly string code;
-
-            /// <summary>
-            ///   The name.
-            /// </summary>
-            private readonly string name;
-
-            /// <summary>
-            ///   Initializes a new instance of the <see cref = "Record" /> class.
-            /// </summary>
-            /// <param name = "columns">
-            ///   The columns.
-            /// </param>
-            /// <param name = "sourceDataReader">
-            ///   The source data reader.
-            /// </param>
-            public Record(CountriesColumns columns, TabSeparatedValueReader sourceDataReader)
-            {
-                // var id = columns.Id( sourceDataReader );
-                name = columns.Name(sourceDataReader);
-                code = columns.IsoCode(sourceDataReader);
-            }
-
-            /// <summary>
-            ///   Gets Name.
-            /// </summary>
-            public string Name
-            {
-                get { return name; }
-            }
-
-            /// <summary>
-            ///   Gets Code.
-            /// </summary>
-            public string Code
-            {
-                get { return code; }
-            }
-
-            /// <summary>
-            ///   The to string.
-            /// </summary>
-            /// <returns>
-            ///   The to string.
-            /// </returns>
+            public string code;
+            public string name;
+            public string[] alts;
+           
             public override string ToString()
             {
-                return string.Format("{0}\t{1}", code, name);
+                var parts = alts != null ? string.Join("\t", alts) : "";
+                return string.Format("{0}\t{1}\t{2}", code, name, parts);
             }
         }
 
@@ -211,10 +200,10 @@ namespace LocationImport
             /// </returns>
             public int Compare(Record x, Record y)
             {
-                var cmp = StringComparer.InvariantCulture.Compare(x.Name, y.Name);
+                var cmp = StringComparer.InvariantCulture.Compare(x.name, y.name);
                 if (0 == cmp)
                 {
-                    cmp = StringComparer.InvariantCulture.Compare(x.Code, y.Code);
+                    cmp = StringComparer.InvariantCulture.Compare(x.code, y.code);
                 }
 
                 return cmp;

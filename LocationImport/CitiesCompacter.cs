@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 #endregion
@@ -100,13 +101,13 @@ namespace LocationImport
         private static List<Record> LoadCities(string citiesInputFileName)
         {
             var ids = new List<int>();
+            var max_alt_names = 0;
 
             long recordsLoaded = 0;
             var loadedCities = new List<Record>();
 
             using (
-                var sourceDataReader = new TabSeparatedValueReader(citiesInputFileName, Encoding.UTF8,
-                                                                   CitiesColumns.ColumnHeaders))
+                var sourceDataReader = new TabSeparatedValueReader(citiesInputFileName, Encoding.UTF8, CitiesColumns.ColumnHeaders))
             {
                 var columns = new CitiesColumns(sourceDataReader);
 
@@ -117,15 +118,29 @@ namespace LocationImport
                         Console.Write("\rLoaded {0} cities...", recordsLoaded);
                     }
 
-                    var rec = new Record(columns, sourceDataReader);
+                    string[] allowed_countries = { "US", "GB", "DE", "AU", "NZ", "NL", "CA" };
+                    var feature = columns.FeatureClass(sourceDataReader);
+                    var country = columns.CountryCode(sourceDataReader);
+                    var pop = columns.Population(sourceDataReader);
 
-                    loadedCities.Add(rec);
+                    if (feature == "P")
+                    {
+                        bool canAdd = (pop > 1000) || (Array.IndexOf(allowed_countries, country) >= 0);
 
-                    ++recordsLoaded;
+                        if (canAdd)
+                        {
+                            var rec = new Record(columns, sourceDataReader);
+                            if (rec.AlternateNames != null && rec.AlternateNames.Length > max_alt_names) max_alt_names = rec.AlternateNames.Length;
+                            loadedCities.Add(rec);
+                            ++recordsLoaded;
+                        }
+                    }
                 }
             }
 
+            
             Console.WriteLine("\rLoaded {0} cities, completed.", recordsLoaded);
+            Console.WriteLine("\r       {0} max altnames.", max_alt_names);
 
             return loadedCities;
         }
@@ -140,7 +155,7 @@ namespace LocationImport
             /// <summary>
             ///   The alternate names.
             /// </summary>
-            private readonly string alternateNames;
+            private readonly string[] alternateNames;
 
             /// <summary>
             ///   The country code.
@@ -192,7 +207,7 @@ namespace LocationImport
                 longitude = columns.Longitude(sourceDataReader);
                 stateCode = columns.StateCode(sourceDataReader);
                 countryCode = columns.CountryCode(sourceDataReader);
-                population = columns.Population(sourceDataReader);
+                population = columns.Population(sourceDataReader);                
             }
 
             /// <summary>
@@ -243,7 +258,7 @@ namespace LocationImport
             /// <summary>
             ///   The alternate names.
             /// </summary>
-            public string AlternateNames
+            public string[] AlternateNames
             {
                 get { return alternateNames; }
             }
@@ -268,16 +283,17 @@ namespace LocationImport
             /// <returns>
             ///   The compact alternate names.
             /// </returns>
-            private static string CompactAlternateNames(string actualName, string otherNames)
+            private static string[] CompactAlternateNames(string actualName, string otherNames)
             {
                 if (string.IsNullOrEmpty(otherNames))
                 {
-                    return otherNames;
+                    return null;
                 }
 
                 var candidates = otherNames.Split(',');
 
-                var sb = new StringBuilder();
+                var results = new List<string>();
+
                 foreach (var name in candidates)
                 {
                     if (StringComparer.InvariantCultureIgnoreCase.Equals(actualName, name))
@@ -285,15 +301,13 @@ namespace LocationImport
                         continue;
                     }
 
-                    if (sb.Length != 0)
+                    if (results.Count < 16)
                     {
-                        sb.Append(",");
+                        results.Add(name);
                     }
-
-                    sb.Append(name);
                 }
 
-                return sb.ToString();
+                return results.ToArray();
             }
 
             /// <summary>
@@ -304,8 +318,9 @@ namespace LocationImport
             /// </returns>
             public override string ToString()
             {
-                return string.Format("{0:0.#####}\t{1:0.#####}\t{2}\t{3}\t{4}\t{5}\t{6}", Latitude, Longitude, Name,
-                                     StateCode, CountryCode, Population, AlternateNames);
+                var alts = alternateNames != null ? "\t" + string.Join("\t", AlternateNames) : "";
+                return string.Format("{0}\t{1:0.#####}\t{2:0.#####}\t{3}\t{4}\t{5}\t{6}{7}", Id, Latitude, Longitude,
+                                     StateCode, CountryCode, Population, Name, alts);
             }
         }
 
@@ -355,10 +370,10 @@ namespace LocationImport
                     cmp = Comparer<double>.Default.Compare(x.Longitude, y.Longitude);
                 }
 
-                if (0 == cmp)
-                {
-                    cmp = StringComparer.InvariantCulture.Compare(x.AlternateNames, y.AlternateNames);
-                }
+                //if (0 == cmp)
+                //{
+                //    cmp = StringComparer.InvariantCulture.Compare(x.AlternateNames, y.AlternateNames);
+                //}
 
                 return cmp;
             }

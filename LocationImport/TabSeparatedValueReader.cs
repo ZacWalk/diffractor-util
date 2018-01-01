@@ -48,8 +48,8 @@ namespace LocationImport
         /// <param name = "columnHeaders">
         ///   The column headers.
         /// </param>
-        public TabSeparatedValueReader(string fileName, Encoding fileEncoding, IEnumerable<string> columnHeaders)
-            : base(fileName, fileEncoding, '\t', columnHeaders)
+        public TabSeparatedValueReader(string fileName, Encoding fileEncoding, IEnumerable<string> columnHeaders, char sepChar = '\t')
+            : base(fileName, fileEncoding, sepChar, columnHeaders)
         {
         }
 

@@ -3,3 +3,7 @@ Lint/
 Release/
 _ReSharper.*
 *.user
+/.vs
+/packages
+/LocationImport/x64
+/LocationImport/x86
