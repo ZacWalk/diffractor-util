@@ -161,6 +161,18 @@ namespace ImageListMaker
                                 { "heart", 0xEB51 },
                                 { "compare", 0xE89A },
                                 { "undo", 0xE7A7 },
+                                { "screen", 0xE7F4 },
+                                { "fill", 0xE8AE },
+                                { "help", 0xE897 },
+                                { "block", 0xF140 },
+                                { "dock_bottom", 0xE90E },
+                                { "cloud", 0xE753 },
+                                { "down", 0xE70D },
+                                { "up", 0xE70E },
+                                { "small_down", 0xE96E },
+                                { "small_up", 0xE96D },
+                                { "small_left", 0xE96F },
+                                { "small_right", 0xE970 },
                              };
 
             var tb32 = new Bitmap(32 * images.Count, 32, PixelFormat.Format32bppArgb);

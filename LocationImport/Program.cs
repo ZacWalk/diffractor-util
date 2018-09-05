@@ -22,7 +22,7 @@ namespace LocationImport
         /// </returns>
         private static int Main(string[] args)
         {
-            var folder = @"D:\Development\diffractor-util";
+            var folder = @"c:\dev\diffractor-util";
             //var citiesInputFileName = System.IO.Path.Combine(folder, "cities1000.txt");
             var citiesInputFileName = System.IO.Path.Combine(folder, "allCountries.txt");
             var statesInputFileName = System.IO.Path.Combine(folder, "admin1CodesASCII.txt");
