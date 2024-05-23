@@ -12,7 +12,7 @@ using System.Security;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("LocationImport")]
-[assembly: AssemblyDescription("Imports Locations from http://download.geonames.org/export/dump/ into a sqlite db")]
+[assembly: AssemblyDescription("Imports Locations from http://download.geonames.org/export/dump/")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Diffractor")]
 [assembly: AssemblyProduct("LocationImport")]

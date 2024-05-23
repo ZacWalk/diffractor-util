@@ -1,11 +1,13 @@
 ﻿#region
 
+using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 #endregion
 
@@ -130,9 +132,15 @@ namespace LocationImport
                         if (canAdd)
                         {
                             var rec = new Record(columns, sourceDataReader);
-                            if (rec.AlternateNames != null && rec.AlternateNames.Length > max_alt_names) max_alt_names = rec.AlternateNames.Length;
-                            loadedCities.Add(rec);
-                            ++recordsLoaded;
+                            var lname = rec.Name.ToLower();
+
+                            if (!lname.Contains("(former)") && !lname.Contains("diocese"))
+                            {
+                                if (rec.AlternateNames != null && rec.AlternateNames.Length > max_alt_names)
+                                    max_alt_names = rec.AlternateNames.Length;
+                                loadedCities.Add(rec);
+                                ++recordsLoaded;
+                            }
                         }
                     }
                 }
